@@ -1548,6 +1548,33 @@ void mostrarEn(HashMap *enemigos) {
 }
 
 
+void limpiarArchivos() {
+    // Sobrescribir mapatemp.csv con el contenido de mapa.csv
+    remove("mapatemp.csv");
+    if (rename("mapa.csv", "mapatemp.csv") != 0) {
+        perror("Error al renombrar el archivo");
+    }
+
+    // Vaciar action.txt
+    FILE *actionFile = fopen("action.txt", "w");
+    if (actionFile == NULL) {
+        perror("No se pudo abrir action.txt");
+        exit(EXIT_FAILURE);
+    }
+    fclose(actionFile);
+
+    // Escribir 'inicio' en estado.txt
+    FILE *estadoFile = fopen("estado.txt", "w");
+    if (estadoFile == NULL) {
+        perror("No se pudo abrir estado.txt");
+        exit(EXIT_FAILURE);
+    }
+    fprintf(estadoFile, "inicio");
+    fclose(estadoFile);
+}
+
+
+
 
 int main(){
 
@@ -1555,17 +1582,15 @@ int main(){
   int desiredIterationsPerSecond = 5;
   int microsecondsPerIteration = 1000000 / desiredIterationsPerSecond;
   const char* fileEstado = "estado.txt";
+
   // Inicializar estructuras
   srand(time(NULL));
 
   HashMap *objetos = lecturaObjetos();
   HashMap *enemigos = lecturaPjs(objetos);  
 
-
   Jugador *yo = crearJugador(objetos);
   
-  
-
   Jugador *enemigo = valueRet(searchMap(enemigos, "Duende"));
 
   while (1) {  // Bucle infinito
@@ -1574,7 +1599,6 @@ int main(){
     int player_y = 1;
 
     load_map_from_file("mapa.csv", &mapa);
-
 
     while (1) {
         display_map(&mapa, player_x, player_y);
@@ -1589,12 +1613,16 @@ int main(){
             hoguera(yo, objetos);
         }
 
+
+
         usleep(microsecondsPerIteration);  // Pausa el programa durante los microsegundos calculados
     }
 
+
+    limpiarArchivos();  // Llamada a la función de limpieza
+
+
     return 0;
 }
-
-
-
 }
+

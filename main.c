@@ -93,20 +93,53 @@ bool checkFileForEstado(const char* filename,char* estado) {
 
 
 
+void clear_console() {
+  system("clear");
+  system("cls"); // Utilizar "cls" en Windows
+}
+
+bool checkFileForEstado(const char* filename,char* estado) {
+    FILE* file = fopen(filename, "r");
+    char buffer[999];
+    if (file == NULL) {
+        sprintf(buffer,"Error opening the file.\n");
+      printArchivo(buffer);
+        return false;
+    }
+
+    char word[100];
+    while (fscanf(file, "%s", word) != EOF) {
+        if (strcmp(word, estado) == 0) {
+            fclose(file);
+            return true;
+        }
+    }
+
+    fclose(file);
+    return false;
+}
+
+
+
 void st_combate() {
   FILE *file = fopen("estado.txt", "w");
+  char buffer[999];
   if (file == NULL) {
-    printf("Error al abrir el archivo estado.txt.");
+    sprintf(buffer,"Error al abrir el archivo estado.txt.");
+    printArchivo(buffer);
     exit(1);
   }
 
   fprintf(file, "combate");
   fclose(file);
 }
+
 void st_hoguera() {
   FILE *file = fopen("estado.txt", "w");
+  char buffer[999];
   if (file == NULL) {
-    printf("Error al abrir el archivo estado.txt.");
+    sprintf(buffer, "Error al abrir el archivo estado.txt.");
+    printArchivo(buffer);
     exit(1);
   }
 
@@ -115,8 +148,10 @@ void st_hoguera() {
 }
 void st_mapa() {
   FILE *file = fopen("estado.txt", "w");
+  char buffer[999];
   if (file == NULL) {
-    printf("Error al abrir el archivo estado.txt.");
+    sprintf(buffer, "Error al abrir el archivo estado.txt.");
+    printArchivo(buffer);
     exit(1);
   }
 
@@ -127,8 +162,10 @@ void st_mapa() {
 
 void load_map_from_file(char *file_path, Mapa *mapa) {
   FILE *file = fopen(file_path, "r");
+  char buffer[999];
   if (file == NULL) {
-    printf("Error al abrir el archivo.");
+    sprintf(buffer, "Error al abrir el archivo.");
+    printArchivo(buffer);
     exit(1);
   }
 
@@ -161,8 +198,10 @@ void display_map(Mapa *mapa, int player_x, int player_y) {
 
 void save_map_to_file(char *file_path, Mapa *mapa) {
   FILE *file = fopen(file_path, "w");
+  char buffer[999];
   if (file == NULL) {
-    printf("Error al abrir el archivo.");
+    sprintf(buffer, "Error al abrir el archivo.");
+    printArchivo(buffer);
     exit(1);
   }
 
@@ -181,8 +220,10 @@ void save_map_to_file(char *file_path, Mapa *mapa) {
 
 void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) {
   FILE *file = fopen(file_path, "r");
+  char buffer[999];
   if (file == NULL) {
-    printf("Error al abrir el archivo.");
+    sprintf(buffer, "Error al abrir el archivo.");
+    printArchivo(buffer);
     exit(1);
   }
 
@@ -190,8 +231,10 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
   fgets(action, 5, file);
 
   if (strlen(action) > 0) {
-    printf("Esperando respuesta de archivo %s\n", file_path);
-    printf("Acción hecha: %c\n", action[0]);
+    sprintf(buffer, "Esperando respuesta de archivo %s\n", file_path);
+    sprintf(buffer, "Acción hecha: %c\n", action[0]);
+
+    printArchivo(buffer);
 
     switch (action[0]) {
       case 'W':
@@ -331,7 +374,8 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
   // Vaciar el archivo
   file = fopen(file_path, "w");
   if (file == NULL) {
-    printf("Error al abrir el archivo.");
+    sprintf(buffer, "Error al abrir el archivo.");
+    printArchivo(buffer);
     exit(1);
   }
   fclose(file);

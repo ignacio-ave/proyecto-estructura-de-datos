@@ -1,0 +1,15 @@
+NOMBRE,ATAQUE,DEFENSA,CURACION
+Palo de madera,2,0,0
+Escudo,0,2,0
+Barra,3,0,0
+Pocion,0,0,5
+Espada de piedra,4,0,0
+Espada de hierro,5,0,0
+Espadon,6,0,0
+Armadura acolchada,0,1,0
+Armadura de cuero,0,2,0
+Camisote de malla,0,3,0
+Cota de escamas,0,4,0
+Cota de malla,0,3,1
+Armadura laminada,0,4,1
+Armadura de placas,0,5,1

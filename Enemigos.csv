@@ -1,0 +1,5 @@
+NOMBRE,JUGADOR,PTOS. SALUD,SALUD MAX,COMPETENCIA,FUERZA,BONIF. FUERZA,DESTREZA,BONIF. DESTREZA,EXP,ITEMS,EQUIPO
+Duende,no,5,5,0,8,0,10,0,50,Palo de madera;Escudo;Pocion;Pocion;Pocion,Palo de madera;Escudo
+Orco,no,10,10,1,14,0,7,0,100,Barra;Escudo;Pocion,Barra;Escudo
+HobGoblin,no,15,15,2,14,0,12,0,150,Palo de madera;Escudo;Pocion;Pocion;Pocion,Palo de madera;Escudo
+Orco armado,no,30,30,1,16,0,8,0,300,Espada de piedra;Palo de madera;Pocion;Armadura acolchada,Espada de piedra;Palo de madera;Armadura acolchada

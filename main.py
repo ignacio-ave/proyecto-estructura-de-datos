@@ -1,6 +1,8 @@
+
 import pygame
 import csv
 import os
+import time
 
 # Dimensiones de la ventana y los caracteres
 WINDOW_WIDTH = 640
@@ -11,17 +13,11 @@ pygame.init()
 window = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
 pygame.display.set_caption('Juego estructura de datos')
 
-# Carpeta de sprites y sonidos
-sprites_folder = "sprites"
-sounds_folder = "sounds"
-
-
 # Carga las fuent
 # de texto
 font_title = pygame.font.Font(None, 36)
 font_subtitle = pygame.font.Font(None, 24)
 font_text = pygame.font.Font(None, 18)
-
 # Carga las imágenes
 fondo_image = pygame.image.load('sprites/fondofinal.png').convert()
 enemy_image_full = pygame.image.load('sprites/enemigo.png').convert()
@@ -101,7 +97,7 @@ running = True
 
 # Animation variables
 frame_index = 0
-animation_delay = 200  # Delay between animation frames in milliseconds
+animation_delay = 100  # Delay between animation frames in milliseconds
 last_frame_time = pygame.time.get_ticks()
 
 # Texto
@@ -118,6 +114,7 @@ pygame.mixer.music.play(-1)  # Play in a loop
 
 # Bucle principal
 while running:
+    clock = pygame.time.Clock()
     current_time = pygame.time.get_ticks()  # Current time
 
     for event in pygame.event.get():
@@ -164,7 +161,8 @@ while running:
                 last_modification_time = modification_time
             last_read_time = current_time
     elif estado == "combate":
-       
+        combate_framerate = 60 
+        clock.tick(combate_framerate)
         # Mostrar pantalla de combate
         
         window.blit(cbg, (0, 0))
@@ -190,6 +188,19 @@ while running:
             text_rect = button_text.get_rect(center=button_rect.center)
             window.blit(button_text, text_rect)
 
+ # Evento de los botones
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            elif event.type == pygame.MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    mouse_pos = pygame.mouse.get_pos()
+                    for label, pos in zip(button_labels, button_positions):
+                        button_rect = pygame.Rect(pos[0], pos[1], button_width, button_height)
+                        if button_rect.collidepoint(mouse_pos):
+                            save_action(label)
+                            print("Botón presionado:", label)
+
         # Leer el contenido del archivo "texto.txt" una vez por segundo or when it changes
         if current_time - last_read_time >= read_file_interval:
             modification_time = os.path.getmtime("texto.txt")
@@ -199,16 +210,7 @@ while running:
             last_read_time = current_time
 
 
-        # Evento de los botones
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    mouse_pos = pygame.mouse.get_pos()
-                    for label, pos in zip(button_labels, button_positions):
-                        button_rect = pygame.Rect(pos[0], pos[1], button_width, button_height)
-                        if button_rect.collidepoint(mouse_pos):
-                            save_action(label)
-                            print("Botón presionado:", label)
+       
 
     elif estado == "bonfire":
        

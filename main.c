@@ -1242,6 +1242,7 @@ void estructuraCombate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
     pj->exp += enemigo->exp;
     while (pj->exp >= (pj->psMax * 10)) {
       subidaNivel(pj);
+      st_mapa();
     }
   }
   if (enemigo->pH <= 0) {

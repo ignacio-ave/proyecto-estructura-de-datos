@@ -65,6 +65,25 @@ typedef struct {
 //
 //
 
+void PrintArchivo(const char* buffer)
+{
+    // Abrir el archivo en modo de escritura (borrar contenido existente)
+    FILE* archivo = fopen("texto.txt", "w");
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo.\n");
+        return;
+    }
+
+    // Guardar el contenido del buffer en el archivo
+    fprintf(archivo, "%s", buffer);
+
+    // Cerrar el archivo
+    fclose(archivo);
+
+    // Imprimir el contenido del buffer en la consola
+    printf("%s", buffer);
+    sleep(1.5);
+}
 
 
 void clear_console() {
@@ -77,7 +96,7 @@ bool checkFileForEstado(const char* filename,char* estado) {
     char buffer[999];
     if (file == NULL) {
         sprintf(buffer,"Error opening the file.\n");
-      printArchivo(buffer);
+      PrintArchivo(buffer);
         return false;
     }
 
@@ -102,7 +121,7 @@ void st_combate() {
   char buffer[999];
   if (file == NULL) {
     sprintf(buffer,"Error al abrir el archivo estado.txt.");
-    printArchivo(buffer);
+    PrintArchivo(buffer);
     exit(1);
   }
 
@@ -114,7 +133,7 @@ void st_hoguera() {
   char buffer[999];
   if (file == NULL) {
     sprintf(buffer, "Error al abrir el archivo estado.txt.");
-    printArchivo(buffer);
+    PrintArchivo(buffer);
     exit(1);
   }
 
@@ -138,7 +157,7 @@ void load_map_from_file(char *file_path, Mapa *mapa) {
   char buffer[999];
   if (file == NULL) {
     sprintf(buffer, "Error al abrir el archivo estado.txt.");
-    printArchivo(buffer);
+    PrintArchivo(buffer);
     exit(1);
   }
 
@@ -174,7 +193,7 @@ void save_map_to_file(char *file_path, Mapa *mapa) {
   char buffer[999];
   if (file == NULL) {
     sprintf(buffer, "Error al abrir el archivo.");
-    printArchivo(buffer);
+    PrintArchivo(buffer);
     exit(1);
   }
 
@@ -197,7 +216,7 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
   
   if (file == NULL) {
     sprintf(buffer, "Error al abrir el archivo.");
-    printArchivo(buffer);
+    PrintArchivo(buffer);
     exit(1);
   }
 
@@ -206,9 +225,9 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
 
   if (strlen(action) > 0) {
     sprintf(buffer, "Esperando respuesta de archivo %s\n", file_path);
-    sprintf(buffer, "Acción hecha: %c\n", action[0]);
+    sprintf(buffer, "Acción Realizada\n", action[0]);
 
-    printArchivo(buffer);
+    PrintArchivo(buffer);
 
     switch (action[0]) {
       case 'W':
@@ -349,31 +368,12 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
   file = fopen(file_path, "w");
   if (file == NULL) {
     sprintf(buffer, "Error al abrir el archivo.");
-    printArchivo(buffer);
+    PrintArchivo(buffer);
     exit(1);
   }
   fclose(file);
 }
 
-void PrintArchivo(const char* buffer)
-{
-    // Abrir el archivo en modo de escritura (borrar contenido existente)
-    FILE* archivo = fopen("texto.txt", "w");
-    if (archivo == NULL) {
-        printf("Error al abrir el archivo.\n");
-        return;
-    }
-
-    // Guardar el contenido del buffer en el archivo
-    fprintf(archivo, "%s", buffer);
-
-    // Cerrar el archivo
-    fclose(archivo);
-
-    // Imprimir el contenido del buffer en la consola
-    printf("%s", buffer);
-    sleep(1.5);
-}
 
 
 

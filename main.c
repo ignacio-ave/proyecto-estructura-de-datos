@@ -74,32 +74,6 @@ void clear_console() {
 
 bool checkFileForEstado(const char* filename,char* estado) {
     FILE* file = fopen(filename, "r");
-    if (file == NULL) {
-        printf("Error opening the file.\n");
-        return false;
-    }
-
-    char word[100];
-    while (fscanf(file, "%s", word) != EOF) {
-        if (strcmp(word, estado) == 0) {
-            fclose(file);
-            return true;
-        }
-    }
-
-    fclose(file);
-    return false;
-}
-
-
-
-void clear_console() {
-  system("clear");
-  system("cls"); // Utilizar "cls" en Windows
-}
-
-bool checkFileForEstado(const char* filename,char* estado) {
-    FILE* file = fopen(filename, "r");
     char buffer[999];
     if (file == NULL) {
         sprintf(buffer,"Error opening the file.\n");
@@ -121,6 +95,8 @@ bool checkFileForEstado(const char* filename,char* estado) {
 
 
 
+
+
 void st_combate() {
   FILE *file = fopen("estado.txt", "w");
   char buffer[999];
@@ -133,7 +109,6 @@ void st_combate() {
   fprintf(file, "combate");
   fclose(file);
 }
-
 void st_hoguera() {
   FILE *file = fopen("estado.txt", "w");
   char buffer[999];
@@ -148,10 +123,8 @@ void st_hoguera() {
 }
 void st_mapa() {
   FILE *file = fopen("estado.txt", "w");
-  char buffer[999];
   if (file == NULL) {
-    sprintf(buffer, "Error al abrir el archivo estado.txt.");
-    printArchivo(buffer);
+    printf("Error al abrir el archivo estado.txt.");
     exit(1);
   }
 
@@ -164,7 +137,7 @@ void load_map_from_file(char *file_path, Mapa *mapa) {
   FILE *file = fopen(file_path, "r");
   char buffer[999];
   if (file == NULL) {
-    sprintf(buffer, "Error al abrir el archivo.");
+    sprintf(buffer, "Error al abrir el archivo estado.txt.");
     printArchivo(buffer);
     exit(1);
   }
@@ -221,6 +194,7 @@ void save_map_to_file(char *file_path, Mapa *mapa) {
 void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) {
   FILE *file = fopen(file_path, "r");
   char buffer[999];
+  
   if (file == NULL) {
     sprintf(buffer, "Error al abrir el archivo.");
     printArchivo(buffer);
@@ -1592,13 +1566,29 @@ void mostrarEn(HashMap *enemigos) {
   }
 }
 
-
 void limpiarArchivos() {
-    // Sobrescribir mapatemp.csv con el contenido de mapa.csv
-    remove("mapatemp.csv");
-    if (rename("mapa.csv", "mapatemp.csv") != 0) {
-        perror("Error al renombrar el archivo");
+    char ch;
+    FILE *source, *target;
+
+    // Copiar contenido de mapa.csv a mapatemp.csv
+    source = fopen("mapa.csv", "r");
+    if (source == NULL) {
+        perror("Error al abrir mapa.csv");
+        exit(EXIT_FAILURE);
     }
+
+    target = fopen("mapatemp.csv", "w");
+    if (target == NULL) {
+        fclose(source);
+        perror("Error al abrir mapatemp.csv");
+        exit(EXIT_FAILURE);
+    }
+
+    while ((ch = fgetc(source)) != EOF)
+        fputc(ch, target);
+
+    fclose(source);
+    fclose(target);
 
     // Vaciar action.txt
     FILE *actionFile = fopen("action.txt", "w");
@@ -1608,13 +1598,13 @@ void limpiarArchivos() {
     }
     fclose(actionFile);
 
-    // Escribir 'inicio' en estado.txt
+    // Escribir 'mapa' en estado.txt
     FILE *estadoFile = fopen("estado.txt", "w");
     if (estadoFile == NULL) {
         perror("No se pudo abrir estado.txt");
         exit(EXIT_FAILURE);
     }
-    fprintf(estadoFile, "inicio");
+    fprintf(estadoFile, "mapa");
     fclose(estadoFile);
 }
 
@@ -1622,7 +1612,7 @@ void limpiarArchivos() {
 
 
 int main(){
-
+  limpiarArchivos();  // Llamada a la función de limpieza
   // Configuracion
   int desiredIterationsPerSecond = 5;
   int microsecondsPerIteration = 1000000 / desiredIterationsPerSecond;
@@ -1635,7 +1625,7 @@ int main(){
   HashMap *enemigos = lecturaPjs(objetos);  
 
   Jugador *yo = crearJugador(objetos);
-  
+
   Jugador *enemigo = valueRet(searchMap(enemigos, "Duende"));
 
   while (1) {  // Bucle infinito

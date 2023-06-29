@@ -60,3 +60,101 @@ Para correr el script de Python, abre una nueva terminal en el directorio del pr
 python main.py
 ```
 
+## Descripción de la Solución
+
+El juego interactivo propuesto incorpora una diversidad de Tipos de Datos Abstractos (TDA) y estructuras de datos, como HashMap para almacenar elementos clave: jugador, enemigos e ítems, garantizando un acceso rápido y rendimiento óptimo. Los TDA encapsulan la lógica del juego, simplificando su diseño, implementación y potenciales modificaciones futuras. El juego, programado en C, incluye un archivo .py que interpreta visualmente la actividad en memoria y la lógica del juego, esencial para su correcto funcionamiento. La meticulosa elección de TDA y estructuras de datos asegura una solución eficaz, escalable y una experiencia de juego robusta.
+
+El juego hace uso de una serie de archivos:
+
+- **Mapa0.csv**: Describe el mapa inicial del juego.
+- **Mapa1.csv** a **Mapa9.csv**: Representan los mapas utilizados en distintas etapas del juego.
+- **Mapatemp.csv**: Es una versión en tiempo real del mapa actual, reflejando la posición del jugador.
+- **Estado.txt**: Muestra uno de los cuatro posibles estados del juego, es actualizado por el código en C y es leído por el programa en Python.
+- **Jugador.csv**: Almacena todos los datos relevantes del jugador, incluyendo su inventario. Los cambios se guardan en el disco.
+- **action.txt**: Registra las acciones llevadas a cabo durante el juego.
+- **Enemigo actual.csv**: Mantiene una copia de los datos en memoria del enemigo que el jugador está enfrentando en el momento.
+- **Mensaje.txt**: Utilizado para mostrar mensajes o textos al jugador durante el juego. Los contenidos son leídos y desplegados por el programa en Python.
+
+**Funciones Python para la implementación gráfica:**
+
+- `load_map(file_path)`: Carga un mapa desde un archivo CSV.
+- `draw_map(map_data)`: Dibuja el mapa en la ventana del juego.
+- `save_action(action)`: Guarda la acción en el archivo "accion.txt".
+- `read_text()`: Lee el contenido del archivo "texto.txt".
+- `read_estado()`: Lee el contenido del archivo "estado.txt".
+- `estado`: Variable que almacena el estado actual del juego.
+
+**Bucle principal del juego en Python:**
+Administra eventos de salida, actualiza el estado del juego, gestiona los movimientos y acciones del jugador, muestra diferentes pantallas (mapa, combate, hoguera, entrada de nombre), y muestra mensajes en la parte inferior de la pantalla.
+
+**Funciones C para la implementación gráfica y el mapa:**
+
+- `void clear_console()`: Limpia la consola.
+- `void load_map_from_file(char *file_path, Mapa *mapa)`: Carga un mapa desde un archivo.
+- `void display_map(Mapa *mapa, int player_x, int player_y)`: Muestra el mapa y la posición del jugador.
+- `void save_map_to_file(char *file_path, Mapa *mapa)`: Guarda el mapa en un archivo.
+- `void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y)`: Procesa acciones y actualiza el mapa y la posición del jugador.
+- `void PrintArchivo(const char* buffer)`: Guarda e imprime contenido de un buffer en "texto.txt".
+
+**Funciones de C relacionadas al combate:**
+
+- `cambioEquipo(Jugador *pj)`: Permite al jugador cambiar su equipo.
+- `stats(Jugador *pj)`: Muestra las estadísticas del jugador.
+- `printOp(int objSec)`: Imprime las opciones de acción durante un combate.
+- `ataque(Jugador *pj, Jugador *enemigo, char *objeto)`: Realiza el ataque del jugador o enemigo.
+- `usarPocion(Jugador *pj)`: Permite al jugador usar una poción para curarse.
+- `detCaida(Jugador *pj, int accExtra)`: Modifica la opción de acción extra si el jugador está desarmado.
+- `turnoPj(Jugador *pj, Jugador *enemigo)`: Maneja el turno del jugador.
+- `combate(Jugador *pj, Jugador *enemigo)`: Realiza el combate.
+- `subidaNivel(Jugador *pj)`: Realiza la subida de nivel del jugador.
+- `estructuraCombate(Jugador *pj, Jugador *enemigo)`: Inicia el combate.
+- `generadorCaract()`: Genera una característica aleatoria para un nuevo jugador.
+
+**Complejidad temporal:**
+
+Tabla 1 : Complejidad temporal de la estructura de datos Hashmap
+
+| Operación | Complejidad de tiempo promedio |
+|-----------|-------------------------------|
+| createMap | O(1) |
+| insertMap | O(1) |
+| eraseMap | O(1) |
+| searchMap | O(1) |
+| firstMap | O(1) |
+| nextMap | O(1) |
+| enlarge | O(n) |
+| sizeMap | O(1) |
+| valueRet | O(1) |
+
+Tabla 2 : Complejidad temporal de las funciones relacionadas al mapa 
+
+| Operación | Complejidad Temporal |
+|-----------|----------------------|
+| process_actions | O(A) |
+| display_map | O(M * N) |
+| load_map_from_file | O(M * N) |
+| clear_console | O(1) |
+| save_map_to_file | O(M * N) |
+| get_player_name | O(1) |
+| initialize_player | O(1) |
+| save_player_info | O(1) |
+| load_player_info | O(1) |
+| display_player_info | O(1) |
+
+Tabla 3 : Complejidad temporal de las funciones de combate 
+
+| Operación | Complejidad Temporal Promedio |
+|-----------|-------------------------------|
+| cambioEquipo | O(1) |
+| stats | O(n) |
+| printOp | O(1) |
+| ataque | O(1) |
+| usarPocion | O(1) |
+| detCaida | O(1) |
+| turnoPj | O(1) |
+| combate | O(n) |
+| subidaNivel | O(1) |
+| estructuraCombate | O(n) |
+| generadorCaract | O(1) |
+
+

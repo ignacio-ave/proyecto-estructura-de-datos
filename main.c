@@ -1480,8 +1480,8 @@ void hoguera(Jugador *pj, HashMap *Objetos) {
   while (true) {
     sprintf(buffer,"¿Deseas realizar algo más?\n1. Cambiar equipo\n2. Ver stats\n3. Salir\n");
        PrintArchivo(buffer);
-    int opc;
-    scanf("%d", &opc);
+    int opc=obtenerSeleccion();
+    //scanf("%d", &opc);
     //getchar();
     switch (opc) {
     case 1:
@@ -1495,8 +1495,8 @@ void hoguera(Jugador *pj, HashMap *Objetos) {
       st_mapa();
       return;
       
-    default:
-      return;
+    //default:
+      //return;
     }
   }
 }

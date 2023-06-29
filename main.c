@@ -371,6 +371,44 @@ void PrintArchivo(const char* buffer)
 // INICIO FUNCIONES CARLOS
 
 
+void vaciarArchivo(const char* nombreArchivo) {
+  FILE* archivo = fopen(nombreArchivo, "w");
+  if (archivo == NULL) {
+    printf("Error al abrir el archivo.\n");
+    return;  // Error al abrir el archivo
+  }
+  fclose(archivo);
+}
+int leerUltimaLineaArchivo(const char* nombreArchivo) {
+  FILE* archivo = fopen(nombreArchivo, "r");
+  if (archivo == NULL) {
+    printf("Error al abrir el archivo.\n");
+    return -1;  // Error al abrir el archivo
+  }
+
+  int ultimoEntero = 0;
+  int enteroActual;
+  while (fscanf(archivo, "%d", &enteroActual) == 1) {
+    ultimoEntero = enteroActual;
+  }
+  fclose(archivo);
+  return ultimoEntero;
+}
+
+
+int obtenerSeleccion() {
+  int seleccion = -1;
+  int tiempoEspera = 3000000;  // 3,5 segundos
+  vaciarArchivo("accion.txt");
+  while (seleccion == -1) {
+    usleep(tiempoEspera);
+    seleccion = leerUltimaLineaArchivo("accion.txt");
+  }
+
+  vaciarArchivo("accion.txt");
+
+  return seleccion;
+}
 
 char* obtenerNombre() {
     char nombre[100];
@@ -660,45 +698,6 @@ void stats(Jugador *pj, HashMap *objetos) {
   //getchar();
 }
 
-
-void vaciarArchivo(const char* nombreArchivo) {
-  FILE* archivo = fopen(nombreArchivo, "w");
-  if (archivo == NULL) {
-    printf("Error al abrir el archivo.\n");
-    return;  // Error al abrir el archivo
-  }
-  fclose(archivo);
-}
-int leerUltimaLineaArchivo(const char* nombreArchivo) {
-  FILE* archivo = fopen(nombreArchivo, "r");
-  if (archivo == NULL) {
-    printf("Error al abrir el archivo.\n");
-    return -1;  // Error al abrir el archivo
-  }
-
-  int ultimoEntero = 0;
-  int enteroActual;
-  while (fscanf(archivo, "%d", &enteroActual) == 1) {
-    ultimoEntero = enteroActual;
-  }
-  fclose(archivo);
-  return ultimoEntero;
-}
-
-
-int obtenerSeleccion() {
-  int seleccion = -1;
-  int tiempoEspera = 3000000;  // 3,5 segundos
-  vaciarArchivo("accion.txt");
-  while (seleccion == -1) {
-    usleep(tiempoEspera);
-    seleccion = leerUltimaLineaArchivo("accion.txt");
-  }
-
-  vaciarArchivo("accion.txt");
-
-  return seleccion;
-}
 
 // Imprime las opciones de accion del jugador y devuelve la opcion elegida
 int printOp(int objSec) {

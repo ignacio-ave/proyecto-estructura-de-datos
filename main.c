@@ -371,40 +371,42 @@ void PrintArchivo(const char* buffer)
 
 // Cambia el equipo del jugador
 void cambioEquipo(Jugador *pj, HashMap *objetos) {
-  printf("¿Que objeto desea equipar?\n");
-  printf("1. Espada principal\n");
-  printf("2. Espada secundaria\n");
-  printf("3. Escudo\n");
-  printf("4. Armadura\n");
+  char buffer[999];
+  sprintf(buffer,"¿Que objeto desea equipar?\n 1. Espada principal\n 2. Espada secundaria\n 3. Escudo\n 4. Armadura\n");
+  PrintArchivo(buffer);
   int opc;
   char nombreObj[30];
   int *new;
   Objeto *espSecEquip;
   scanf("%d", &opc);
-  getchar();
+  //getchar();
   switch (opc) {
   case 1:
 
-    printf("¿Que espada desea equipar?\n");
+    sprintf(buffer,"¿Que espada desea equipar?\n");
+    PrintArchivo(buffer);
     scanf("%[^\n]", nombreObj);
-    getchar();
+    //getchar();
     new = valueRet(searchMap(pj->items, nombreObj));
     // En caso de no tenerla no la puede equipar
     if (!new) {
-      printf("No tienes ese objeto\n");
-      getchar();
+      sprintf(buffer,"No tienes ese objeto\n");
+      PrintArchivo(buffer);
+      //getchar();
       break;
     }
     Objeto *itemBase = valueRet(searchMap(objetos, nombreObj));
     // En caso de tenerla pero no tener ataque no la puede equipar
     if (itemBase->atk == 0) {
-      printf("No puedes equipar eso\n");
-      getchar();
+      sprintf(buffer,"No puedes equipar eso\n");
+      PrintArchivo(buffer);
+      //getchar();
       break;
     } 
     else if ((*new) == 0) {
-      printf("Solo tienes el que ya esta equipado\n");
-      getchar();
+      sprintf(buffer,"Solo tienes el que ya esta equipado\n");
+      PrintArchivo(buffer);
+      //getchar();
       break;
     }
     // se elimina la espada principal y se equipa la nueva
@@ -414,49 +416,51 @@ void cambioEquipo(Jugador *pj, HashMap *objetos) {
     eraseMap(pj->equipo, "Espada");
     insertMap(pj->equipo, "Espada", itemBase);
     (*new)--;
-    printf("Se ha equipado la espada\n");
-    getchar();
+    sprintf(buffer,"Se ha equipado la espada\n");
+    PrintArchivo(buffer);
+    //getchar();
     break;
 
   case 2:
     // Comprueba que no tenga equipada una segunda espada
     if (searchMap(pj->equipo, "Espada Secundaria")) {
-      printf("Ya tienes equipadas 2 espadas\n");
-      printf("Deseas cambiar :\n");
       espSecEquip = valueRet(searchMap(pj->equipo, "Espada Secundaria"));
-      printf("%s\nDaño : %d\n", espSecEquip->nombre, espSecEquip->atk);
-      printf("1. Si\n");
-      printf("2. No\n");
+      sprintf("Ya tienes equipadas 2 espadas\nDeseas cambiar :\n %s\nDaño : %d\n 1. Si\n 2. No\n", espSecEquip->nombre, espSecEquip->atk);
+      PrintArchivo(buffer);
       int opc;
       scanf("%d", &opc);
-      getchar();
+      //getchar();
       if (opc == 2) {
         break;
       }
     }
     // En caso de no tenerla la intenta equipar
 
-    printf("¿Que espada desea equipar?\n");
+    sprintf(buffer,"¿Que espada desea equipar?\n");
+    PrintArchivo(buffer);
     scanf("%[^\n]", nombreObj);
-    getchar();
+    //getchar();
     new = valueRet(searchMap(pj->items, nombreObj));
 
     // Si no tiene la espada en el inventario no la puede equipar
     if (!new) {
-      printf("No tienes ese objeto\n");
-      getchar();
+      sprintf(buffer,"No tienes ese objeto\n");
+      PrintArchivo(buffer);
+      //getchar();
       break;
     }
     Objeto *nuevaSec = valueRet(searchMap(objetos, nombreObj));
     // En caso de tenerla pero no tener ataque no la puede equipar
     if (nuevaSec->atk == 0) {
-      printf("No puedes equipar eso\n");
-      getchar();
+      sprintf(buffer,"No puedes equipar eso\n");
+      PrintArchivo(buffer);
+      //getchar();
       break;
     } 
     else if ((*new) == 0) {
-      printf("Solo tienes el que ya esta equipado\n");
-      getchar();
+      sprintf(buffer,"Solo tienes el que ya esta equipado\n");
+      PrintArchivo(buffer);
+      //getchar();
       break;
     }
     // Si la tiene la equipa y desequipa el escudo
@@ -476,16 +480,18 @@ void cambioEquipo(Jugador *pj, HashMap *objetos) {
     pj->desarmadoSec = 0;
     (*new)--;
 
-    printf("Se ha equipado la espada\n");
+    sprintf(buffer,"Se ha equipado la espada\n");
+    PrintArchivo(buffer);
 
-    getchar();
+    //getchar();
     break;
 
   case 3:
     // Comprueba que no tenga equipado un escudo
     if (searchMap(pj->equipo, "Escudo")) {
-      printf("Ya tienes equipado un escudo\n");
-      getchar();
+      sprintf(buffer,"Ya tienes equipado un escudo\n");
+      PrintArchivo(buffer);
+      //getchar();
       break;
     }
     // En caso de no tenerlo lo intenta equipar
@@ -493,8 +499,9 @@ void cambioEquipo(Jugador *pj, HashMap *objetos) {
       new = valueRet(searchMap(pj->items, "Escudo"));
       // Si no tiene el escudo en el inventario no lo puede equipar
       if (!new) {
-        printf("No tienes ese objeto\n");
-        getchar();
+        sprintf(buffer,"No tienes ese objeto\n");
+        PrintArchivo(buffer);
+        //getchar();
         break;
       }
       // Si lo tiene lo equipa y desequipa la espada secundaria
@@ -507,25 +514,29 @@ void cambioEquipo(Jugador *pj, HashMap *objetos) {
       insertMap(pj->equipo, "Escudo", valueRet(searchMap(objetos, "Escudo")));
       pj->armorClass += 2;
 
-      printf("Se ha equipado el escudo\n");
+      sprintf(buffer,"Se ha equipado el escudo\n");
+      PrintArchivo(buffer);
     }
-    getchar();
+    //getchar();
     break;
 
   case 4:
-    printf("¿Que armadura desea equipar?\n");
+    sprintf(buffer,"¿Que armadura desea equipar?\n");
+     PrintArchivo(buffer);
     scanf("%[^\n]", nombreObj);
-    getchar();
+    //getchar();
     new = valueRet(searchMap(pj->items, nombreObj));
     if (!new) {
-      printf("No tienes ese objeto\n");
-      getchar();
+      sprintf(buffer,"No tienes ese objeto\n");
+       PrintArchivo(buffer);
+      //getchar();
       break;
     }
     Objeto *armor = valueRet(searchMap(objetos, nombreObj));
     if (armor->def == 0 || strcmp("Escudo", nombreObj) == 0) {
-      printf("No puedes equipar eso\n");
-      getchar();
+      sprintf(buffer,"No puedes equipar eso\n");
+       PrintArchivo(buffer);
+      //getchar();
       break;
     }
     eraseMap(pj->equipo, "Armadura");
@@ -536,14 +547,16 @@ void cambioEquipo(Jugador *pj, HashMap *objetos) {
     else {
       pj->armorClass = 10 + armor->def + pj->bonifFuerza;
     }
-    printf("Se ha equipado la armadura\n");
-    printf("Tu clase de armadura es %d\n", pj->armorClass);
-    getchar();
+
+    sprintf(buffer,"Se ha equipado la armadura\n Tu clase de armadura es %d\n", pj->armorClass);
+     PrintArchivo(buffer);
+    //getchar();
     break;
 
   default:
-    printf("Opcion no valida\n");
-    getchar();
+    sprintf(buffer,"Opcion no valida\n");
+    PrintArchivo(buffer);
+    //getchar();
     break;
   }
 }
@@ -551,17 +564,12 @@ void cambioEquipo(Jugador *pj, HashMap *objetos) {
 
 // Imprime los objetos del jugador
 void stats(Jugador *pj, HashMap *objetos) {
+  char buffer[999];
   // Imprime los stats del jugador
-  printf("Nombre : %s\n", pj->nombre);
-  printf("Experiencia para el siguiente nivel : %ld\n",
-         pj->psMax * 10 - pj->exp);
-  printf("Puntos de vida: %ld\n", pj->pH);
-  printf("Puntos de armadura: %d\n", pj->armorClass);
-  printf("Bonificador de competencia: %d\n", pj->comp);
-  printf("Fuerza: %d\n", pj->fuerza);
-  printf("Bonificador de fuerza: %d\n", pj->bonifFuerza);
-  printf("Destreza: %d\n", pj->destreza);
-  printf("Bonificador de destreza: %d\n", pj->bonifDestreza);
+  sprintf(buffer,"Nombre : %s\nExperiencia para el siguiente nivel : %ld\nPuntos de vida: %ld\nPuntos de armadura: %d\n", pj->nombre,pj->psMax * 10 - pj->exp,pj->pH,pj->armorClass);
+  PrintArchivo(buffer);
+  sprintf(buffer,"Bonificador de competencia: %d\nFuerza: %d\nBonificador de fuerza: %d\nDestreza: %d\nBonificador de destreza: %d\n", pj->comp,pj->fuerza,pj->bonifFuerza, pj->destreza,pj->bonifDestreza);
+  PrintArchivo(buffer);
 
   // Imprime los objetos del jugador
   printf("Objetos:\n");
@@ -576,22 +584,26 @@ void stats(Jugador *pj, HashMap *objetos) {
 
     // Si es pocion muestra cuantas tiene
     if (strcmp(primPala, "Pocion") == 0) {
-      printf("    Cantidad: %d\n", *cant);
+      sprintf(buffer,"    Cantidad: %d\n", *cant);
+        PrintArchivo(buffer);
     }
     // Si es espada muestra el ataque
     else if (obj->atk > 0) {
-      printf("    Ataque: %d\n", obj->atk);
-      printf("    Cantidad sin equipar: %d\n", *cant);
+      sprintf(buffer,"    Ataque: %d\n", obj->atk);
+        PrintArchivo(buffer);
+      sprintf(buffer,"Cantidad sin equipar: %d\n", *cant);
+        PrintArchivo(buffer);
     }
     // Si es armadura muestra el defensa
     else if (strcmp(primPala, "Armadura") == 0) {
-      printf("    Defensa: %d\n", obj->def);
+      sprintf(buffer,"    Defensa: %d\n", obj->def);
     }
     aux = nextMap(pj->items);
   }
 
   // Imprime el equipo del jugador
-  printf("Equipo:\n");
+  sprintf(buffer,"Equipo:\n");
+    PrintArchivo(buffer);
   aux = firstMap(pj->equipo);
   while (aux) {
     Objeto *obj = valueRet(aux);
@@ -603,15 +615,17 @@ void stats(Jugador *pj, HashMap *objetos) {
     // Si es espada muestra el ataque
     if (strcmp(aux->key, "Espada") == 0 ||
         strcmp(aux->key, "Espada Secundaria") == 0) {
-      printf("    Ataque: %d\n", obj->atk);
+      sprintf(buffer,"    Ataque: %d\n", obj->atk);
+      PrintArchivo(buffer);
     }
     // Si es armadura muestra el defensa
     else if (strcmp(primPala, "Armadura") == 0) {
-      printf("    Defensa: %d\n", obj->def);
+      sprintf(buffer,"    Defensa: %d\n", obj->def);
+        PrintArchivo(buffer);
     }
     aux = nextMap(pj->equipo);
   }
-  getchar();
+  //getchar();
 }
 
 
@@ -656,21 +670,26 @@ int obtenerSeleccion() {
 
 // Imprime las opciones de accion del jugador y devuelve la opcion elegida
 int printOp(int objSec) {
-  printf("¿Que desea hacer?\n");
+  char buffer[999];
+  sprintf(buffer,"¿Que desea hacer?\n");
+  PrintArchivo(buffer);
   // Si tiene al menos una espada imprime los mensajes correspondientes
   if (objSec != 4) {
-    printf("1. Atacar\n");
+
     if (objSec == 0) {
-      printf("2. Accion no disponible\n");
+      sprintf(buffer,"1. Atacar\n2. Accion no disponible\n3. Curarse\n4. Ver stats\n");
+        PrintArchivo(buffer);
     } else if (objSec == 1) {
-      printf("2. Ataque extra\n");
+      printf(buffer,"1. Atacar\n2. Ataque extra\n3. Curarse\n4. Ver stats\n");
+        PrintArchivo(buffer);
     } else if (objSec == 2) {
-      printf("2. Protegerse\n");
+      printf(buffer,"1. Atacar\n2. Protegerse\n3. Curarse\n4. Ver stats\n");
+        PrintArchivo(buffer);
     } else if (objSec == 3) {
-      printf("2. Recoger una espada\n");
+      printf(buffer,"1. Atacar\n2. Recoger una espada\n3. Curarse\n4. Ver stats\n");
+        PrintArchivo(buffer);
     }
-    printf("3. Curarse\n");
-    printf("4. Ver stats\n");
+
     //NUEVAAAAAAAA
     int opc=obtenerSeleccion();
     //Vieja
@@ -682,9 +701,8 @@ int printOp(int objSec) {
   }
   // Si no tiene espadas pierde las opciones de atacar
   else {
-    printf("1. Recoger una espada\n");
-    printf("2. Curarse\n");
-    printf("3. Ver stats\n");
+    sprintf(buffer,"1. Recoger una espada\n2. Curarse\n3. Ver stats\n");
+        PrintArchivo(buffer);
     //Nuevaa
     int opc=obtenerSeleccion();
     //Vieja
@@ -707,35 +725,40 @@ int printOp(int objSec) {
 
 // Realiza la accion de ataque del jugador o enemigo
 void ataque(Jugador *pj, Jugador *enemigo, char *objeto) {
+  char buffer[999];
   int acc = rand() % 20 + 1;
   
   if (pj->ventaja == 1 && pj->desventaja == 0 ||
       pj->ventaja == 1 && enemigo->cubierto == 0 ||
       enemigo->desventaja && enemigo->cubierto == 0) {
     int acc2 = rand() % 20 + 1;
-    printf("Primer dado : %d\n", acc);
-    printf("Segundo dado : %d\n", acc2);
+    sprintf(buffer,"Primer dado : %d\nSegundo dado : %d\n", acc,acc2);
+    PrintArchivo(buffer);
     if (acc < acc2) {
       acc = acc2;
     }
-    printf("Dado definitivo : %d\n", acc);
+    sprintf(buffer,"Dado definitivo : %d\n", acc);
+     PrintArchivo(buffer);
   }
   else if (enemigo->cubierto == 1 && pj->ventaja == 0 ||
            pj->desventaja == 1 && pj->ventaja == 0) {
     int acc2 = rand() % 20 + 1;
-    printf("Primer dado : %d\n", acc);
-    printf("Segundo dado : %d\n", acc2);
+    sprintf(buffer,"Primer dado : %d\nSegundo dado : %d\n", acc,acc2);
+    PrintArchivo(buffer);
     if (acc > acc2) {
       acc = acc2;
     }
-    printf("Dado definitivo : %d\n", acc);
+     sprintf(buffer,"Dado definitivo : %d\n", acc);
+     PrintArchivo(buffer);
   }
   else {
-    printf("Lanzamiento del dado : %d\n", acc);
+    sprintf(buffer,"Lanzamiento del dado : %d\n", acc);
+    PrintArchivo(buffer);
   }
 
   acc += pj->comp;
-  printf("Numero de entrada : %d\n", acc);
+  sprintf(buffer,"Numero de entrada : %d\n", acc);
+  PrintArchivo(buffer);
   // Ataque exitoso
   if (acc >= enemigo->armorClass) {
     int damage;
@@ -761,27 +784,33 @@ void ataque(Jugador *pj, Jugador *enemigo, char *objeto) {
     // Imprime el resultado del ataque
     if (!pj->prota) {
       if ((acc - pj->comp) == 20) {
-        printf("El enemigo te ha hecho %d de daño (critico)\n", damage);
+        sprintf(buffer,"El enemigo te ha hecho %d de daño (critico)\n", damage);
+        PrintArchivo(buffer);
       } else {
-        printf("El enemigo te ha hecho %d de daño\n", damage);
+        sprintf(buffer,"El enemigo te ha hecho %d de daño\n", damage);
+        PrintArchivo(buffer);
       }
     }
     // Imprime el resultado del ataque
     else {
       if (strcmp(objeto, "Espada") == 0) {
         if ((acc - pj->comp) == 20) {
-          printf("Has hecho %d (%d + %d + %d) de daño (critico)\n",damage, espada->atk, dadoArma, pj->bonifFuerza);
+          sprintf(buffer,"Has hecho %d (%d + %d + %d) de daño (critico)\n",damage, espada->atk, dadoArma, pj->bonifFuerza);
+          PrintArchivo(buffer);
         } 
         else {
-          printf("Has hecho %d (%d + %d) de daño\n", damage, dadoArma, pj->bonifFuerza);
+          sprintf(buffer,"Has hecho %d (%d + %d) de daño\n", damage, dadoArma, pj->bonifFuerza);
+          PrintArchivo(buffer);
         }
       }
       else {
         if ((acc - pj->comp) == 20) {
-          printf("Has hecho %d (%d + %d) de daño (critico)\n", damage, espada->atk, dadoArma);
+          sprintf(buffer,"Has hecho %d (%d + %d) de daño (critico)\n", damage, espada->atk, dadoArma);
+          PrintArchivo(buffer);
         } 
         else {
-          printf("Has hecho %d de daño\n", dadoArma);
+          sprintf(buffer,"Has hecho %d de daño\n", dadoArma);
+          PrintArchivo(buffer);
         }
       }
     }
@@ -789,24 +818,30 @@ void ataque(Jugador *pj, Jugador *enemigo, char *objeto) {
   // Fallo critico, se le cae la espada
   else if ((acc - pj->comp) == 1) {
     if (!pj->prota) {
-      printf("El enemigo ha fallado\n");
+      sprintf(buffer,"El enemigo ha fallado\n");
+      PrintArchivo(buffer);
       pj->desventaja = 1;
       if (strcmp(objeto, "Espada") == 0) {
         pj->desarmadoPrin = 1;
-        printf("El enemigo ha perdido su espada principal\n");
+        sprintf(buffer,"El enemigo ha perdido su espada principal\n");
+        PrintArchivo(buffer);
       } else {
         pj->desarmadoSec = 1;
-        printf("El enemigo ha perdido su espada secundaria\n");
+        sprintf(buffer,"El enemigo ha perdido su espada secundaria\n");
+        PrintArchivo(buffer);
       }
     } else {
-      printf("Has fallado\n");
+      sprintf(buffer,"Has fallado\n");
+      PrintArchivo(buffer);
       pj->desventaja = 1;
       if (strcmp(objeto, "Espada") == 0) {
         pj->desarmadoPrin = 1;
-        printf("Has perdido tu espada principal\n");
+        sprintf(buffer,"Has perdido tu espada principal\n");
+        PrintArchivo(buffer);
       } else {
         pj->desarmadoSec = 1;
-        printf("Has perdido tu espada secundaria\n");
+        sprintf(buffer,"Has perdido tu espada secundaria\n");
+        PrintArchivo(buffer);
       }
     }
   }
@@ -817,20 +852,24 @@ void ataque(Jugador *pj, Jugador *enemigo, char *objeto) {
       enemigo->ventaja = 1;
     }
     if (!pj->prota) {
-      printf("El enemigo ha fallado\n");
+      sprintf(buffer,"El enemigo ha fallado\n");
+      PrintArchivo(buffer);
     } else {
-      printf("Has fallado\n");
+      sprintf(buffer,"Has fallado\n");
+      PrintArchivo(buffer);
     }
   }
 }
 
 // Curarse con pocion durante el combate
 int usarPocion(Jugador *pj, HashMap *objetos) {
+  char buffer[999];
   // Comprueba que tenga pociones
   int *pocion = valueRet(searchMap(pj->items, "Pocion"));
   if (!pocion) {
     if (pj->prota) {
-      printf("No tienes pociones\n");
+      sprintf(buffer,"No tienes pociones\n");
+      PrintArchivo(buffer);
     }
     return 0;
   }
@@ -842,15 +881,19 @@ int usarPocion(Jugador *pj, HashMap *objetos) {
     if (pj->pH > pj->psMax) {
       pj->pH = pj->psMax;
       if (pj->prota) {
-        printf("Te has curado %d puntos de vida\n", curacion);
+        sprintf(buffer,"Te has curado %d puntos de vida\n", curacion);
+        PrintArchivo(buffer);
       } else {
-        printf("El enemigo se ha curado\n");
+        sprintf(buffer,"El enemigo se ha curado\n");
+        PrintArchivo(buffer);
       }
     } else {
       if (pj->prota) {
-        printf("Te has curado %d puntos de vida\n", pocionReal->curacion);
+        sprintf(buffer,"Te has curado %d puntos de vida\n", pocionReal->curacion);
+        PrintArchivo(buffer);
       } else {
-        printf("El enemigo se ha curado\n");
+        sprintf(buffer,"El enemigo se ha curado\n");
+        PrintArchivo(buffer);
       }
     }
 
@@ -858,7 +901,8 @@ int usarPocion(Jugador *pj, HashMap *objetos) {
     if ((*pocion) == 0) {
       eraseMap(pj->items, "Pocion");
       if (pj->prota) {
-        printf("Se han acabado las pociones\n");
+        sprintf(buffer,"Se han acabado las pociones\n");
+        PrintArchivo(buffer);
       }
     }
   }
@@ -867,16 +911,19 @@ int usarPocion(Jugador *pj, HashMap *objetos) {
 
 // Modifica la accion extra si el jugador esta desarmado
 int detCaida(Jugador *pj, int accExtra) {
+  char buffer[999];
   // Si esta desarmado pero tiene 2 espadas
   if (pj->desarmadoPrin == 1 && accExtra == 1) {
     if (pj->prota)
-      printf("No puedes atacar con la espada principal\n");
+      sprintf(buffer,"No puedes atacar con la espada principal\n");
+      PrintArchivo(buffer);
     accExtra = 3;
   }
   // Si esta desarmado pero tiene 2 espadas
   else if (pj->desarmadoSec == 1 && accExtra == 1) {
     if (pj->prota)
-      printf("No puedes atacar con la espada secundaria\n");
+      sprintf(buffer,"No puedes atacar con la espada secundaria\n");
+      PrintArchivo(buffer);
     accExtra = 3;
   }
   // Si esta desarmado de ambas manos o tiene solo una espada que se le cayo y
@@ -884,7 +931,8 @@ int detCaida(Jugador *pj, int accExtra) {
   else if (pj->desarmadoPrin == 1 && accExtra == 0 ||
            pj->desarmadoPrin == 1 && pj->desarmadoSec == 1 ||
            pj->desarmadoPrin == 1 && accExtra == 2) {
-    printf("No puedes atacar\n");
+    sprintf(buffer,"No puedes atacar\n");
+    PrintArchivo(buffer);
     accExtra = 4;
   }
   return accExtra;
@@ -892,6 +940,7 @@ int detCaida(Jugador *pj, int accExtra) {
 
 // Realiza el turno del jugador o enemigo
 void turnoPj(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
+  char buffer[999];
   int opc;
 
   // Define que accion extra tiene el personaje
@@ -919,7 +968,8 @@ void turnoPj(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
 
     // Si es jugador pide la accion, si es enemigo la elige aleatoriamente
     if (pj->prota) {
-      printf("Salud : %ld\n", pj->pH);
+      sprintf(buffer,"Salud : %ld\n", pj->pH);
+      PrintArchivo(buffer);
       opc = printOp(accExtra);
     }
     // Da indicios de la vida del enemigo
@@ -928,17 +978,22 @@ void turnoPj(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
       if (!mostVidaEne) {
         mostVidaEne = 1;
         if (porcVida == 1) {
-          printf("El enemigo se ve en perfecto estado\n");
+          sprintf(buffer,"El enemigo se ve en perfecto estado\n");
+          PrintArchivo(buffer);
         } else if (porcVida >= 0.75) {
-          printf("El enemigo no parece tener heridas\n");
+          sprintf(buffer,"El enemigo no parece tener heridas\n");
+          PrintArchivo(buffer);
         } else if (porcVida >= 0.5) {
-          printf("El enemigo se ve adolorido\n");
+          sprintf(buffer,"El enemigo se ve adolorido\n");
+          PrintArchivo(buffer);
         } else if (porcVida >= 0.25) {
-          printf("El enemigo se ve bastante herido\n");
+          sprintf(buffer,"El enemigo se ve bastante herido\n");
+          PrintArchivo(buffer);
         } else {
-          printf("No sabes como se mantiene en pie\n");
+          sprintf(buffer,"No sabes como se mantiene en pie\n");
+          PrintArchivo(buffer);
         }
-        getchar();
+        //getchar();
       }
       opc = rand() % 3 + 1;
       if (enemigo->desventaja == 1 || pj->ventaja == 1) {
@@ -992,25 +1047,29 @@ void turnoPj(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
       } else if (pj->desarmadoPrin && !pj->desarmadoSec && accOriginal == 1) {
         ataque(pj, enemigo, "Espada Secundaria");
       } else {
-        printf("No puedes atacar\n");
+        sprintf(buffer,"No puedes atacar\n");
+        PrintArchivo(buffer);
         break;
       }
-      getchar();
+      //getchar();
       return;
 
     case 2:
       // No tiene equipo para realizar acciones extras
       if (accExtra == 0) {
-        printf("No disponible\n");
-        getchar();
+        sprintf(buffer,"No disponible\n");
+        PrintArchivo(buffer);
+        //getchar();
         break;
       }
       // Ataque extra
       else if (accExtra == 1) {
         if (pj->prota == 1) {
-          printf("Primer ataque\n");
+          sprintf(buffer,"Primer ataque\n");
+          PrintArchivo(buffer);
           ataque(pj, enemigo, "Espada");
-          printf("Segundo ataque\n");
+          sprintf(buffer,"Segundo ataque\n");
+          PrintArchivo(buffer);
           ataque(pj, enemigo, "Espada Secundaria");
         } else {
           ataque(pj, enemigo, "Espada");
@@ -1021,24 +1080,28 @@ void turnoPj(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
       else if (accExtra == 2) {
         pj->armorClass += 2;
         pj->cubierto = 1;
-        if (pj->prota)
-          printf("Te has cubierto\n");
-        else
-          printf("El enemigo se ha cubierto\n");
+        if (pj->prota){
+          sprintf(buffer,"Te has cubierto\n");
+          PrintArchivo(buffer);}
+        else{
+          sprintf(buffer,"El enemigo se ha cubierto\n");
+          PrintArchivo(buffer);}
       }
       // Recoger una espada
       else {
-        if (pj->prota)
-          printf("Recoges el arma del suelo\n");
-        else
-          printf("El enemigo recogio una espada\n");
+        if (pj->prota){
+          sprintf(buffer,"Recoges el arma del suelo\n");
+          PrintArchivo(buffer);}
+        else{
+          sprintf(buffer,"El enemigo recogio una espada\n");
+          PrintArchivo(buffer);
         if (pj->desarmadoPrin == 1) {
           pj->desarmadoPrin = 0;
         } else {
           pj->desarmadoSec = 0;
-        }
+        }}
       }
-      getchar();
+      //getchar();
       return;
 
     case 3:
@@ -1048,7 +1111,7 @@ void turnoPj(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
       }
       // Se cura
       else {
-        getchar();
+        //getchar();
         return;
       }
 
@@ -1057,7 +1120,8 @@ void turnoPj(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
       break;
 
     default:
-      printf("Opcion no valida\n");
+      sprintf(buffer,"Opcion no valida\n");
+      PrintArchivo(buffer);
       break;
     }
   }
@@ -1065,6 +1129,7 @@ void turnoPj(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
 
 // Realiza el combate entre el jugador y el enemigo mientras ambos tengan vida
 void combate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
+  char buffer[999];
   int iniciativaPj = rand() % 20 + 1;
   int iniciativaEnemigo = rand() % 20 + 1;
   if (iniciativaPj > iniciativaEnemigo) {
@@ -1076,8 +1141,8 @@ void combate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
   }
   while (pj->pH > 0 && enemigo->pH > 0) {
     if (pj->turno == 1) {
-      printf("Es tu turno\n");
-      
+      sprintf(buffer,"Es tu turno\n");
+      PrintArchivo(buffer);
       // Si esta cubierto lo quita
       if (pj->cubierto == 1) {
         pj->cubierto = 0;
@@ -1093,7 +1158,8 @@ void combate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
       pj->turno = 0;
       enemigo->turno = 1;
     } else {
-      printf("Turno del enemigo\n");
+      sprintf(buffer,"Turno del enemigo\n");
+      PrintArchivo(buffer);
       
       // Si esta cubierto lo quita
       if (enemigo->cubierto == 1) {
@@ -1115,40 +1181,46 @@ void combate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
 
 // Realiza la subida de nivel del jugador
 void subidaNivel(Jugador *pj) {
-  printf("Has subido de nivel\n");
+  char buffer[999];
+  sprintf(buffer,"Has subido de nivel\n");
+  PrintArchivo(buffer);
   pj->exp -= pj->psMax * 10;
   pj->psMax += 5;
   pj->pH = pj->psMax;
   pj->comp = 2 + (pj->psMax - 15) / 5;
-  printf("Tus puntos de vida maximos son %ld\n", pj->psMax);
-  printf("Tu bonificador de competencia es %d\n", pj->comp);
-  getchar();
+  sprintf(buffer,"Tus puntos de vida maximos son %ld\n", pj->psMax);
+  PrintArchivo(buffer);
+  sprintf(buffer,"Tu bonificador de competencia es %d\n", pj->comp);
+  PrintArchivo(buffer);
+  //getchar();
   Objeto *armadura;
   if (pj->fuerza < 20 && pj->destreza < 20) {
     if (pj->psMax % 2 == 0) {
-      printf("Puedes sumarle dos a una caracteristica\n");
-      printf("1. Fuerza: actualmente = %d\n", pj->fuerza);
-      printf("2. Destreza: actualmente = %d\n", pj->destreza);
+      sprintf(buffer,"Puedes sumarle dos a una caracteristica\n1. Fuerza: actualmente = %d\n2. Destreza: actualmente = %d\n",pj->fuerza,pj->destreza);
+      PrintArchivo(buffer);
       int opc;
       scanf("%d", &opc);
-      getchar();
+      //getchar();
 
       // Suma 2 a la fuerza
       if (opc == 1) {
         pj->fuerza += 2;
         if (pj->fuerza >= 20) {
           pj->fuerza = 20;
-          printf("Has llegado al maximo de fuerza\n");
+          sprintf(buffer,"Has llegado al maximo de fuerza\n");
+            PrintArchivo(buffer);
         }
         pj->bonifFuerza = (pj->fuerza - 10) / 2;
-        printf("Tu bonificador de fuerza es %d\n", pj->bonifFuerza);
+        sprintf(buffer,"Tu bonificador de fuerza es %d\n", pj->bonifFuerza);
+        PrintArchivo(buffer);
       }
       // Suma 2 a la destreza
       else {
         pj->destreza += 2;
         if (pj->destreza >= 20) {
           pj->destreza = 20;
-          printf("Has llegado al maximo de destreza\n");
+          sprintf(buffer,"Has llegado al maximo de destreza\n");
+            PrintArchivo(buffer);
         }
         pj->bonifDestreza = (pj->destreza - 10) / 2;
         armadura = valueRet(searchMap(pj->equipo, "Armadura"));
@@ -1157,26 +1229,34 @@ void subidaNivel(Jugador *pj) {
         } else {
           pj->armorClass = 10 + pj->bonifDestreza;
         }
-        printf("Tu bonificador de destreza es %d\n", pj->bonifDestreza);
+        printf(buffer,"Tu bonificador de destreza es %d\n", pj->bonifDestreza);
+          PrintArchivo(buffer);
       }
     }
   } else if (pj->fuerza < 20) {
-    printf("Tu destreza esta al maximo\n");
-    printf("Se suma automaticamente a la fuerza\n");
+    sprintf(buffer,"Tu destreza esta al maximo\n");
+      PrintArchivo(buffer);
+    sprintf(buffer,"Se suma automaticamente a la fuerza\n");
+      PrintArchivo(buffer);
     pj->fuerza += 2;
     if (pj->fuerza >= 20) {
       pj->fuerza = 20;
-      printf("Has llegado al maximo de fuerza\n");
+      sprintf(buffer,"Has llegado al maximo de fuerza\n");
+        PrintArchivo(buffer);
     }
     pj->bonifFuerza = (pj->fuerza - 10) / 2;
-    printf("Tu bonificador de fuerza es %d\n", pj->bonifFuerza);
+    sprintf(buffer,"Tu bonificador de fuerza es %d\n", pj->bonifFuerza);
+      PrintArchivo(buffer);
   } else if (pj->destreza < 20) {
-    printf("Tu fuerza esta al maximo\n");
-    printf("Se suma automaticamente a la destreza\n");
+    sprintf(buffer,"Tu fuerza esta al maximo\n");
+      PrintArchivo(buffer);
+    sprintf(buffer,"Se suma automaticamente a la destreza\n");
+      PrintArchivo(buffer);
     pj->destreza += 2;
     if (pj->destreza >= 20) {
       pj->destreza = 20;
-      printf("Has llegado al maximo de destreza\n");
+      sprintf(buffer,"Has llegado al maximo de destreza\n");
+        PrintArchivo(buffer);
     }
     pj->bonifDestreza = (pj->destreza - 10) / 2;
     armadura = valueRet(searchMap(pj->equipo, "Armadura"));
@@ -1185,22 +1265,29 @@ void subidaNivel(Jugador *pj) {
     } else {
       pj->armorClass = 10 + pj->bonifDestreza;
     }
-    printf("Tu bonificador de destreza es %d\n", pj->bonifDestreza);
+    sprintf(buffer,"Tu bonificador de destreza es %d\n", pj->bonifDestreza);
+      PrintArchivo(buffer);
   } else {
-    printf("Tus caracteristicas estan al maximo\n");
+    sprintf(buffer,"Tus caracteristicas estan al maximo\n");
+    PrintArchivo(buffer);
   }
 }
 
 // Da inicio al combate y luego otorga el loot en caso de ganar
 void estructuraCombate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
-  printf("Comienza el combate\n");
+  char buffer[999];
+  sprintf(buffer,"Comienza el combate\n");
+  PrintArchivo(buffer);
   combate(pj, enemigo, objetos);
   if (pj->pH <= 0) {
-    printf("Has muerto\n");
+    sprintf(buffer,"Has muerto\n");
+      PrintArchivo(buffer);
     exit(EXIT_SUCCESS);
   } else {
-    printf("Has ganado\n");
-    printf("Has obtenido %ld de experiencia\n", enemigo->exp);
+    sprintf(buffer,"Has ganado\n");
+      PrintArchivo(buffer);
+    sprintf(buffer,"Has obtenido %ld de experiencia\n", enemigo->exp);
+      PrintArchivo(buffer);
     pj->exp += enemigo->exp;
     while (pj->exp >= (pj->psMax * 10)) {
       subidaNivel(pj);
@@ -1224,7 +1311,8 @@ void estructuraCombate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
       else {
         (*itemJug) += *cantItemEnem;
       }
-      printf("Has obtenido %s\n", aux->key);
+      sprintf(buffer,"Has obtenido %s\n", aux->key);
+        PrintArchivo(buffer);
       aux = nextMap(enemigo->items);
     }
   }
@@ -1235,11 +1323,13 @@ void estructuraCombate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
 
 // Genera una caracteristica aleatoria
 int generadorCaract() {
+  char buffer[999];
   int d1 = rand() % 6 + 1;
   int d2 = rand() % 6 + 1;
   int d3 = rand() % 6 + 1;
   int d4 = rand() % 6 + 1;
-  printf("Los dados han sido %d, %d, %d, %d\n", d1, d2, d3, d4);
+  sprintf(buffer,"Los dados han sido %d, %d, %d, %d\n", d1, d2, d3, d4);
+    PrintArchivo(buffer);
   int min = d1;
   if (d2 < min) {
     min = d2;
@@ -1250,17 +1340,20 @@ int generadorCaract() {
   if (d4 < min) {
     min = d4;
   }
-  printf("El valor de la caracteristica es %d\n", d1 + d2 + d3 + d4 - min);
+  printf(buffer,"El valor de la caracteristica es %d\n", d1 + d2 + d3 + d4 - min);
+    PrintArchivo(buffer);
   return d1 + d2 + d3 + d4 - min;
 }
 
 // Crea un nuevo jugador
 Jugador *crearJugador(HashMap *objetos) {
+  char buffer[999];
   Jugador *pj = (Jugador *)malloc(sizeof(Jugador));
-  printf("¿Cual es tu nombre?\n");
+  printf(buffer,"¿Cual es tu nombre?\n");
+  PrintArchivo(buffer);
   char *nombre = (char *)malloc(30 * sizeof(char));
   scanf("%[^\n]", nombre);
-  getchar();
+  //getchar();
 
   // // Solo esta por un tema de testing
   // printf("Es jugador?\n");
@@ -1276,20 +1369,23 @@ Jugador *crearJugador(HashMap *objetos) {
   pj->comp = 2;
   pj->exp = 0;
   pj->prota = 1;
-  printf("Se realizaran lanzamientos aleatorios para determinar la fuerza y la "
+  sprintf(buffer,"Se realizaran lanzamientos aleatorios para determinar la fuerza y la "
          "destreza del personaje\n");
-  printf("Primer lanzamiento\n");
+           PrintArchivo(buffer);
+  sprintf(buffer,"Primer lanzamiento\n");
+    PrintArchivo(buffer);
   int caract1 = generadorCaract();
-  printf("Segundo lanzamiento\n");
+  sprintf(buffer,"Segundo lanzamiento\n");
+    PrintArchivo(buffer);
   int caract2 = generadorCaract();
 
   // Se asignan las caracteristicas
-  printf("¿Cual sera tu caracteristica principal?\n");
-  printf("1. Fuerza: Bonificador al daño del arma\n");
-  printf("2. Destreza: Bonificador a la armadura\n");
+  sprintf(buffer,"¿Cual sera tu caracteristica principal?\n1. Fuerza: Bonificador al daño del arma\n2. Destreza: Bonificador a la armadura\n");
+    PrintArchivo(buffer);
+ 
   int opc;
   scanf("%d", &opc);
-  getchar();
+  //getchar();
   if (opc == 1) {
     if (caract1 >= caract2) {
       pj->fuerza = caract1 + 2;
@@ -1315,8 +1411,10 @@ Jugador *crearJugador(HashMap *objetos) {
       pj->bonifDestreza = (pj->destreza - 10) / 2;
     }
   }
-  printf("Bonificador de fuerza : %d\n", pj->bonifFuerza);
-  printf("Bonificador de destreza : %d\n", pj->bonifDestreza);
+  sprintf(buffer,"Bonificador de fuerza : %d\n", pj->bonifFuerza);
+     PrintArchivo(buffer);
+  sprintf(buffer,"Bonificador de destreza : %d\n", pj->bonifDestreza);
+     PrintArchivo(buffer);
 
   // if (strcmp(resp, "si") == 0)
   //   pj->prota = 1;
@@ -1371,17 +1469,18 @@ Jugador *crearJugador(HashMap *objetos) {
 
 // Zona de descanso y recupera la vida maxima
 void hoguera(Jugador *pj, HashMap *Objetos) {
+  char buffer[999];
   pj->pH = pj->psMax;
-  printf("Has descansado en la hoguera\n");
-  getchar();
+  sprintf(buffer,"Has descansado en la hoguera\n");
+     PrintArchivo(buffer);
+
+  //getchar();
   while (true) {
-    printf("¿Deseas realizar algo más?\n");
-    printf("1. Cambiar equipo\n");
-    printf("2. Ver stats\n");
-    printf("3. Salir\n");
+    sprintf(buffer,"¿Deseas realizar algo más?\n1. Cambiar equipo\n2. Ver stats\n3. Salir\n");
+       PrintArchivo(buffer);
     int opc;
     scanf("%d", &opc);
-    getchar();
+    //getchar();
     switch (opc) {
     case 1:
       cambioEquipo(pj, Objetos);

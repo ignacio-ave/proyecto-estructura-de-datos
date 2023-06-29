@@ -1491,7 +1491,10 @@ void hoguera(Jugador *pj, HashMap *Objetos) {
     case 2:
       stats(pj, Objetos);
       break;
-
+    case 3:
+      st_mapa();
+      return;
+      
     default:
       return;
     }

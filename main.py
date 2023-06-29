@@ -80,7 +80,13 @@ def draw_map(map_data):
 def save_action(action):
     with open('accion.txt', 'a') as file:
         file.write(action + "\n")
-
+        
+# Función para guardar la acción en el archivo
+def save_action_to_file(action):
+    with open("action.txt", "w") as file:  # Cambiamos 'a' por 'w' para sobrescribir el archivo cada vez
+        file.write(str(action))
+        
+        
 # Lee el contenido del archivo "texto.txt"
 def read_text():
     # Detectar la codificación del archivo
@@ -264,7 +270,7 @@ while running:
                     for label, pos in zip(button_labels, button_positions):
                         button_rect = pygame.Rect(pos[0], pos[1], button_width, button_height)
                         if button_rect.collidepoint(mouse_pos):
-                            save_action(label)
+                            save_action_to_file(label)  # Llamar a la función para guardar la acción
                             print("Botón presionado:", label)
 
 

@@ -1523,6 +1523,12 @@ HashMap *lecturaPjs(HashMap *Objetos) {
     pj->nombre = (char*) malloc(30*sizeof(char));
     strcpy(pj->nombre, aux);
     aux = strtok(NULL, ",");
+    if (aux == NULL) {
+    // printf("\n");
+      free(pj);
+      fgets(linea, 300, archivo);
+      continue;
+    }
     if (strcmp("si", aux) == 0) {
       free(pj);
       fgets(linea, 300, archivo);

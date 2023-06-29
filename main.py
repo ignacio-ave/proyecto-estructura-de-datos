@@ -227,9 +227,11 @@ while running:
        
 
     elif estado == "bonfire":
-       
-        # Mostrar pantalla de combate
+    # Establecer el framerate para la pantalla de la hoguera
+        hoguera_framerate = 60
+        clock.tick(hoguera_framerate)
         
+        # Mostrar pantalla de la hoguera
         window.blit(cbg, (0, 0))
 
         combate_text = font_title.render("Estás en la hoguera.", True, (255, 255, 255))
@@ -239,11 +241,10 @@ while running:
         window.blit(bonfire_image_full, enemy_rect)
 
         button_font = pygame.font.Font(None, 24)
-        button_labels = ["1", "2", "3", "4"]
-        button_positions = [(220, 400), (380, 400), (220, 450), (380, 450)]
+        button_labels = ["1", "2", "3"]
+        button_positions = [(220, 350), (380, 350), (300, 450)]
         button_width = 80
         button_height = 40
-        button_padding = 10
 
         for label, pos in zip(button_labels, button_positions):
             button_rect = pygame.Rect(pos[0], pos[1], button_width, button_height)
@@ -253,14 +254,13 @@ while running:
             text_rect = button_text.get_rect(center=button_rect.center)
             window.blit(button_text, text_rect)
 
-        # Leer el contenido del archivo "texto.txt" una vez por segundo or when it changes
+        # Leer el contenido del archivo "texto.txt" una vez por segundo o cuando cambia
         if current_time - last_read_time >= read_file_interval:
             modification_time = os.path.getmtime("texto.txt")
             if modification_time != last_modification_time:
                 text = "TEXTO: " + read_text()
                 last_modification_time = modification_time
             last_read_time = current_time
-
 
         # Evento de los botones
         for event in pygame.event.get():
@@ -270,8 +270,9 @@ while running:
                     for label, pos in zip(button_labels, button_positions):
                         button_rect = pygame.Rect(pos[0], pos[1], button_width, button_height)
                         if button_rect.collidepoint(mouse_pos):
-                            save_action_to_file(label)  # Llamar a la función para guardar la acción
+                            save_action(label)
                             print("Botón presionado:", label)
+
 
 
     elif estado == "nombre":

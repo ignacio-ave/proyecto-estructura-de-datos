@@ -370,6 +370,37 @@ void PrintArchivo(const char* buffer)
 ////////////////////////////////////////////////////////////////////////////
 // INICIO FUNCIONES CARLOS
 
+
+
+char* obtenerNombre() {
+    char nombre[100];
+    int tiempoEspera = 3000000;  // 3.5 segundos
+    vaciarArchivo("nombre.txt");
+    while (1) {
+        usleep(tiempoEspera);
+        FILE* archivo = fopen("nombre.txt", "r");
+        if (archivo != NULL) {
+            fseek(archivo, 0, SEEK_END);  // Mover al final del archivo
+            long size = ftell(archivo);   // Obtener la posición actual (es decir, el tamaño)
+            rewind(archivo);  // Regresar al principio del archivo
+            if (size != 0) {  // Si el archivo no está vacío
+                fgets(nombre, sizeof(nombre), archivo);
+                fclose(archivo);
+                if (strlen(nombre) > 0) {
+                    nombre[strcspn(nombre, "\n")] = '\0';  // Eliminar el salto de línea
+                    return strdup(nombre);
+                }
+            }
+            else {  // Si el archivo está vacío, cerrar y continuar en el bucle
+                fclose(archivo);
+            }
+        }
+    }
+}
+
+
+
+
 // Cambia el equipo del jugador
 void cambioEquipo(Jugador *pj, HashMap *objetos) {
   char buffer[999];
@@ -1353,8 +1384,8 @@ Jugador *crearJugador(HashMap *objetos) {
   Jugador *pj = (Jugador *)malloc(sizeof(Jugador));
   printf(buffer,"¿Cual es tu nombre?\n");
   PrintArchivo(buffer);
-  char *nombre = (char *)malloc(30 * sizeof(char));
-  scanf("%[^\n]", nombre);
+  char *nombre = obtenerNombre();
+  //scanf("%[^\n]", nombre);
   //getchar();
 
   // // Solo esta por un tema de testing

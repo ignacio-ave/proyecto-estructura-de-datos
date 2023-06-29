@@ -3,6 +3,8 @@ import pygame
 import csv
 import os
 import time
+import chardet
+
 
 # Dimensiones de la ventana y los caracteres
 WINDOW_WIDTH = 640
@@ -81,8 +83,14 @@ def save_action(action):
 
 # Lee el contenido del archivo "texto.txt"
 def read_text():
-    with open("texto.txt", "r") as file:
+    # Detectar la codificación del archivo
+    with open("texto.txt", 'rb') as f:
+        result = chardet.detect(f.read())
+        
+    # Abrir el archivo con la codificación detectada
+    with open("texto.txt", 'r', encoding=result['encoding']) as file:
         texto = file.read().strip()
+        
     return texto
 
 # Lee el contenido del archivo "estado.txt"
@@ -157,7 +165,7 @@ while running:
         if current_time - last_read_time >= read_file_interval:
             modification_time = os.path.getmtime("texto.txt")
             if modification_time != last_modification_time:
-                text = "TEXTO: " + read_text()
+                text = "TEXTO: " + read_text() # 
                 last_modification_time = modification_time
             last_read_time = current_time
     elif estado == "combate":

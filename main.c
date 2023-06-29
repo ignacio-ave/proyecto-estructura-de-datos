@@ -20,6 +20,7 @@ typedef struct {
 typedef struct {
   char *nombre;      // nombre del jugador
   int prota;         // 1 si es el prota, 0 si es un enemigo
+  int enemigoderrotado;     // 1 si esta derrotado, 0 si no
   long pH;           // puntos de vida
   long psMax;        // puntos de vida maximos
   int comp;          // bonificador de competencia
@@ -1289,6 +1290,7 @@ void estructuraCombate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
     sprintf(buffer,"Has obtenido %ld de experiencia\n", enemigo->exp);
       PrintArchivo(buffer);
     pj->exp += enemigo->exp;
+    enemigo->enemigoderrotado = 1;
     while (pj->exp >= (pj->psMax * 10)) {
       subidaNivel(pj);
       st_mapa();
@@ -1527,6 +1529,7 @@ HashMap *lecturaPjs(HashMap *Objetos) {
       continue;
     }
     pj->prota = 0;
+    pj->enemigoderrotado = 0;
     aux = strtok(NULL, ",");
     pj->pH = atoi(aux);
     aux = strtok(NULL, ",");
@@ -1658,10 +1661,10 @@ void limpiarArchivos() {
     char ch;
     FILE *source, *target;
 
-    // Copiar contenido de mapa.csv a mapatemp.csv
-    source = fopen("mapa.csv", "r");
+    // Copiar contenido de mapacon@.csv a mapatemp.csv
+    source = fopen("mapacon@.csv", "r");
     if (source == NULL) {
-        printf("Error al abrir mapa.csv");
+        printf("Error al abrir mapacon@.csv");
         exit(EXIT_FAILURE);
     }
 
@@ -1692,10 +1695,30 @@ void limpiarArchivos() {
         printf("No se pudo abrir estado.txt");
         exit(EXIT_FAILURE);
     }
-    fprintf(estadoFile, "nombre");
+    fprintf(estadoFile, "mapa"); // CAMBIAR AQUI PARA CAMBIAR EL ESTADO INICIAL   
     fclose(estadoFile);
 }
 
+
+
+void siguienteEnemigo(HashMap *enemigos, Jugador **enemigoActual) {
+    // Inicia la iteración en el primer elemento del HashMap
+    Pair *pair = firstMap(enemigos);
+    Jugador *tempEnemigo;
+    
+    while(pair != NULL) { 
+        tempEnemigo = (Jugador*) pair->value;
+        
+        // Si el enemigo no está derrotado y es distinto del enemigo actual, actualizar enemigo actual
+        if(tempEnemigo->enemigoderrotado == 0 && tempEnemigo != *enemigoActual) {
+            *enemigoActual = tempEnemigo;
+            break;
+        }
+        
+        // Moverse al siguiente elemento del HashMap
+        pair = nextMap(enemigos);
+    }
+}
 
 
 
@@ -1710,7 +1733,7 @@ int main(){
   srand(time(NULL));
 
   HashMap *objetos = lecturaObjetos();
-  HashMap *enemigos = lecturaPjs(objetos);  
+  HashMap *enemigos = lecturaPjs(objetos);   
 
   Jugador *yo = crearJugador(objetos);
 
@@ -1730,8 +1753,10 @@ int main(){
 
         printf("Ejecutando lógica...\n");
         if(checkFileForEstado(fileEstado,"combate") == true){
-            estructuraCombate(yo, enemigo, objetos);
+          estructuraCombate(yo, enemigo, objetos);
+          siguienteEnemigo(enemigos, &enemigo);
         }
+
         if(checkFileForEstado(fileEstado,"bonfire") == true){
             hoguera(yo, objetos);
         }

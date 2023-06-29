@@ -66,8 +66,8 @@ El juego interactivo propuesto incorpora una diversidad de Tipos de Datos Abstra
 
 El juego hace uso de una serie de archivos:
 
-- **Mapa0.csv**: Describe el mapa inicial del juego.
-- **Mapa1.csv** a **Mapa9.csv**: Representan los mapas utilizados en distintas etapas del juego.
+- **mapa.csv**: Describe el mapa inicial del juego.
+- **Mapa1.csv** a **MapaN.csv**: Representan los mapas utilizados en distintas etapas del juego.
 - **Mapatemp.csv**: Es una versión en tiempo real del mapa actual, reflejando la posición del jugador.
 - **Estado.txt**: Muestra uno de los cuatro posibles estados del juego, es actualizado por el código en C y es leído por el programa en Python.
 - **Jugador.csv**: Almacena todos los datos relevantes del jugador, incluyendo su inventario. Los cambios se guardan en el disco.

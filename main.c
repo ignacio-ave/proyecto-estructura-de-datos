@@ -1593,7 +1593,7 @@ void limpiarArchivos() {
         printf("No se pudo abrir estado.txt");
         exit(EXIT_FAILURE);
     }
-    fprintf(estadoFile, "mapa");
+    fprintf(estadoFile, "nombre");
     fclose(estadoFile);
 }
 

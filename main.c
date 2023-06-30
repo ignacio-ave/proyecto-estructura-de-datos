@@ -1809,7 +1809,7 @@ void limpiarArchivos() {
         printf("No se pudo abrir estado.txt");
         exit(EXIT_FAILURE);
     }
-    fprintf(estadoFile, "mapa"); // CAMBIAR AQUI PARA CAMBIAR EL ESTADO INICIAL   
+    fprintf(estadoFile, "nombre"); // CAMBIAR AQUI PARA CAMBIAR EL ESTADO INICIAL   
     fclose(estadoFile);
 }
 

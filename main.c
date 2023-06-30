@@ -1323,7 +1323,7 @@ void estructuraCombate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
     enemigo->enemigoderrotado = 1;
     while (pj->exp >= (pj->psMax * 10)) {
       subidaNivel(pj);
-      st_mapa();
+      
     }
   }
   if (enemigo->pH <= 0) {
@@ -1351,6 +1351,7 @@ void estructuraCombate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
   pj->desarmadoPrin = 0;
   pj->desarmadoSec = 0;
   pj->desventaja = 0;
+  st_mapa();
 }
 
 // Genera una caracteristica aleatoria

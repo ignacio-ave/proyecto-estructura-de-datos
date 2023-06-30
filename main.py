@@ -1,4 +1,3 @@
-
 import pygame
 import csv
 import os
@@ -227,7 +226,7 @@ while running:
        
 
     elif estado == "bonfire":
-    # Establecer el framerate para la pantalla de la hoguera
+        # Establecer el framerate para la pantalla de la hoguera
         hoguera_framerate = 60
         clock.tick(hoguera_framerate)
         
@@ -241,39 +240,71 @@ while running:
         window.blit(bonfire_image_full, enemy_rect)
 
         button_font = pygame.font.Font(None, 24)
-        button_labels = ["1", "2", "3"]
-        button_positions = [(220, 350), (380, 350), (300, 450)]
+        button_labels = ["1", "2", "3", "4"]
         button_width = 80
         button_height = 40
+        button_padding = 10
+        button_start_x = (WINDOW_WIDTH - (button_width * 4 + button_padding * 3)) // 2
+        button_y = 350
 
-        for label, pos in zip(button_labels, button_positions):
-            button_rect = pygame.Rect(pos[0], pos[1], button_width, button_height)
+        buttons = []
+        for i, label in enumerate(button_labels):
+            button_x = button_start_x + (button_width + button_padding) * i
+            button_rect = pygame.Rect(button_x, button_y, button_width, button_height)
+            buttons.append((button_rect, label))
             pygame.draw.rect(window, (255, 255, 255), button_rect)
             pygame.draw.rect(window, (0, 0, 0), button_rect.inflate(-2, -2))
             button_text = button_font.render(label, True, (255, 255, 255))
             text_rect = button_text.get_rect(center=button_rect.center)
             window.blit(button_text, text_rect)
 
-        # Leer el contenido del archivo "texto.txt" una vez por segundo o cuando cambia
-        if current_time - last_read_time >= read_file_interval:
-            modification_time = os.path.getmtime("texto.txt")
-            if modification_time != last_modification_time:
-                text = "TEXTO: " + read_text()
-                last_modification_time = modification_time
-            last_read_time = current_time
+        # Agrega una caja de texto para la entrada del usuario
+        input_text = ""  # Inicializa la variable de entrada
+        input_rect = pygame.Rect(WINDOW_WIDTH // 2 - 100, button_y + button_height + 20, 200, 30)
+        pygame.draw.rect(window, (255, 255, 255), input_rect)
+        pygame.draw.rect(window, (0, 0, 0), input_rect.inflate(-2, -2))
+        input_surface = font_text.render(input_text, True, (255, 255, 255))
+        window.blit(input_surface, (input_rect.x + 5, input_rect.y + 5))
 
-        # Evento de los botones
-        for event in pygame.event.get():
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
-                    mouse_pos = pygame.mouse.get_pos()
-                    for label, pos in zip(button_labels, button_positions):
-                        button_rect = pygame.Rect(pos[0], pos[1], button_width, button_height)
-                        if button_rect.collidepoint(mouse_pos):
-                            save_action(label)
-                            print("Botón presionado:", label)
+        while estado == "bonfire":
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    running = False
+                    estado = "salir"
+                elif event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_RETURN:
+                        with open("action.txt", "w") as file:
+                            file.write(input_text)
+                        input_text = ""
+                    elif event.key == pygame.K_BACKSPACE:
+                        input_text = input_text[:-1]
+                    else:
+                        input_text += event.unicode
 
+                elif event.type == pygame.MOUSEBUTTONDOWN:
+                    if event.button == 1:
+                        mouse_pos = pygame.mouse.get_pos()
+                        for button_rect, label in buttons:
+                            if button_rect.collidepoint(mouse_pos):
+                                with open("accion.txt", "w") as file:
+                                    file.write(label)
+                                print("Botón presionado:", label)
 
+            input_surface = font_text.render(input_text, True, (255, 255, 255))
+            window.blit(input_surface, (input_rect.x + 5, input_rect.y + 5))
+
+            # Leer el contenido del archivo "texto.txt" una vez por segundo o cuando cambia
+            if current_time - last_read_time >= read_file_interval:
+                modification_time = os.path.getmtime("texto.txt")
+                if modification_time != last_modification_time:
+                    text = "TEXTO: " + read_text()
+                    last_modification_time = modification_time
+                    text_surface = font_text.render(text, True, (255, 255, 255))
+                    window.blit(text_surface, (10, WINDOW_HEIGHT - 30))  # Dibujar el texto en la parte inferior de la ventana
+
+                last_read_time = current_time
+
+            pygame.display.flip()
 
     elif estado == "nombre":
         # Mostrar pantalla para ingresar el nombre del jugador

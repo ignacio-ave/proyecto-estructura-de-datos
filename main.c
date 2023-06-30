@@ -437,6 +437,41 @@ char* obtenerNombre() {
 }
 
 
+char* obtenerNombreObjeto() {
+    static char nombre[100];  // make this static so it's not on the stack
+    int tiempoEspera = 3000000;  // 3.5 segundos
+    vaciarArchivo("action.txt");
+    while (1) {
+        usleep(tiempoEspera);
+        FILE* archivo = fopen("action.txt", "r");
+        if (archivo == NULL) {
+            perror("Error abriendo el archivo");
+            continue;  // si no se puede abrir el archivo, intente nuevamente
+        }
+
+        fseek(archivo, 0, SEEK_END);  // mover al final del archivo
+        long size = ftell(archivo);   // obtener la posición actual (es decir, el tamaño)
+        rewind(archivo);  // regresar al principio del archivo
+
+        if (size != 0) {  // si el archivo no está vacío
+            if (fgets(nombre, sizeof(nombre), archivo) == NULL) {
+                perror("Error leyendo del archivo");
+            }
+            fclose(archivo);
+
+            if (strlen(nombre) > 0) {
+                nombre[strcspn(nombre, "\n")] = '\0';  // eliminar el salto de línea
+                return strdup(nombre);
+            }
+        }
+        else {  // si el archivo está vacío, cerrar y continuar en el bucle
+            fclose(archivo);
+        }
+    }
+}
+
+
+
 
 
 // Cambia el equipo del jugador
@@ -444,18 +479,20 @@ void cambioEquipo(Jugador *pj, HashMap *objetos) {
   char buffer[999];
   sprintf(buffer,"¿Que objeto desea equipar?\n 1. Espada principal\n 2. Espada secundaria\n 3. Escudo\n 4. Armadura\n");
   PrintArchivo(buffer);
-  int opc;
-  char nombreObj[30];
+  int opc = obtenerSeleccion();
+  //char *nombreObj[30]; //Original
+  char *nombreObj;
   int *new;
   Objeto *espSecEquip;
-  scanf("%d", &opc);
+  //scanf("%d", &opc);
   //getchar();
   switch (opc) {
   case 1:
 
     sprintf(buffer,"¿Que espada desea equipar?\n");
     PrintArchivo(buffer);
-    scanf("%[^\n]", nombreObj);
+    nombreObj = obtenerNombreObjeto();
+    //scanf("%[^\n]", nombreObj);
     //getchar();
     new = valueRet(searchMap(pj->items, nombreObj));
     // En caso de no tenerla no la puede equipar
@@ -508,7 +545,8 @@ void cambioEquipo(Jugador *pj, HashMap *objetos) {
 
     sprintf(buffer,"¿Que espada desea equipar?\n");
     PrintArchivo(buffer);
-    scanf("%[^\n]", nombreObj);
+    nombreObj=obtenerNombreObjeto();
+    //scanf("%[^\n]", nombreObj);
     //getchar();
     new = valueRet(searchMap(pj->items, nombreObj));
 
@@ -593,7 +631,8 @@ void cambioEquipo(Jugador *pj, HashMap *objetos) {
   case 4:
     sprintf(buffer,"¿Que armadura desea equipar?\n");
      PrintArchivo(buffer);
-    scanf("%[^\n]", nombreObj);
+    nombreObj=obtenerNombreObjeto();
+    //scanf("%[^\n]", nombreObj);
     //getchar();
     new = valueRet(searchMap(pj->items, nombreObj));
     if (!new) {
@@ -630,6 +669,7 @@ void cambioEquipo(Jugador *pj, HashMap *objetos) {
     break;
   }
 }
+
 
 
 // Imprime los objetos del jugador

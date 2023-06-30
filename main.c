@@ -386,11 +386,12 @@ int leerUltimaLineaArchivo(const char* nombreArchivo) {
     return -1;  // Error al abrir el archivo
   }
 
-  int ultimoEntero = 0;
+  int ultimoEntero = -1;
   int enteroActual;
   while (fscanf(archivo, "%d", &enteroActual) == 1) {
     ultimoEntero = enteroActual;
   }
+
   fclose(archivo);
   return ultimoEntero;
 }

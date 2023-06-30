@@ -1,4 +1,1 @@
-¿Deseas realizar algo más?
-1. Cambiar equipo
-2. Ver stats
-3. Salir
+Opcion no valida

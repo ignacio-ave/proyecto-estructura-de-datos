@@ -1012,7 +1012,7 @@ int detCaida(Jugador *pj, int accExtra) {
 // Realiza el turno del jugador o enemigo
 void turnoPj(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
   char buffer[999];
-  int opc;
+  int opc ;
 
   // Define que accion extra tiene el personaje
   int accExtra = 0;
@@ -1420,6 +1420,7 @@ int generadorCaract() {
 
 // Crea un nuevo jugador
 Jugador *crearJugador(HashMap *objetos) {
+  printf("SOLOCONSOLA: Comienza creación personaje.\n\n");
   char buffer[999];
   Jugador *pj = (Jugador *)malloc(sizeof(Jugador));
   printf(buffer,"¿Cual es tu nombre?\n");
@@ -1580,25 +1581,32 @@ void mostrarObj(HashMap *Objetos) {
   }
 }
 
-// Lectura de enemigos csv
 HashMap *lecturaPjs(HashMap *Objetos) {
   FILE *archivo = fopen("Enemigos.csv", "r");
   if (!archivo) {
     printf("No se pudo abrir el archivo\n");
     return NULL;
   }
+  printf("El archivo se abrió correctamente\n");
+
   HashMap *enemigos = createMap(10);
   char *linea = (char *)malloc(300 * sizeof(char));
   fgets(linea, 300, archivo);
+  printf("Primera línea leída: %s", linea);
+
   while (!feof(archivo)) {
     fgets(linea, 300, archivo);
+    printf("Línea leída: %s", linea);
+
     Jugador* pj = (Jugador*) malloc(sizeof(Jugador));
     char *aux = strtok(linea, ",");
     pj->nombre = (char*) malloc(30*sizeof(char));
     strcpy(pj->nombre, aux);
+
+    printf("Nombre: %s\n", pj->nombre);
+
     aux = strtok(NULL, ",");
     if (aux == NULL) {
-    // printf("\n");
       free(pj);
       fgets(linea, 300, archivo);
       continue;
@@ -1608,64 +1616,81 @@ HashMap *lecturaPjs(HashMap *Objetos) {
       fgets(linea, 300, archivo);
       continue;
     }
+
     pj->prota = 0;
     pj->enemigoderrotado = 0;
+
     aux = strtok(NULL, ",");
     pj->pH = atoi(aux);
+    printf("pH: %d\n", pj->pH);
+
     aux = strtok(NULL, ",");
     pj->psMax = atoi(aux);
+    printf("psMax: %d\n", pj->psMax);
+
     aux = strtok(NULL, ",");
     pj->comp = atoi(aux);
+    printf("comp: %d\n", pj->comp);
+
     aux = strtok(NULL, ",");
     pj->fuerza = atoi(aux);
+    printf("fuerza: %d\n", pj->fuerza);
+
     aux = strtok(NULL, ",");
     pj->bonifFuerza = (pj->fuerza - 10) / 2;
+    printf("bonifFuerza: %d\n", pj->bonifFuerza);
+
     aux = strtok(NULL, ",");
     pj->destreza = atoi(aux);
+    printf("destreza: %d\n", pj->destreza);
+
     aux = strtok(NULL, ",");
     pj->bonifDestreza = (pj->destreza - 10) / 2;
+    printf("bonifDestreza: %d\n", pj->bonifDestreza);
+
     aux = strtok(NULL, ",");
     pj->exp = atoi(aux);
+    printf("exp: %d\n", pj->exp);
+
     char *items = (char *)malloc(100 * sizeof(char));
     pj->items = createMap(10);
     items = strtok(NULL, ",");
+
     char *equipo = (char *)malloc(100 * sizeof(char));
     pj->equipo = createMap(5);
     equipo = strtok(NULL, ",");
-    aux = strtok(items, ";");
+
+    aux = strtok(items, ",");
+    printf("Items:\n");
     while (aux) {
-      // if (strcmp(aux, "0") == 0) {
-      //   break;
-      // }
-      
       int *objCant = valueRet(searchMap(pj->items, aux));
       if (objCant) {
         (*objCant)++;
-        aux = strtok(NULL, ";");
+        aux = strtok(NULL, ",");
       }
       else {
         Objeto *obj = valueRet(searchMap(Objetos, aux));
         if (!obj) {
-          aux = strtok(NULL, ";");
+          aux = strtok(NULL, ",");
           continue;
         }
-        // obj->cantidad = 1;
         int *base = (int*) malloc(sizeof(int));
         *base = 1;
         insertMap(pj->items, obj->nombre, base);
-        aux = strtok(NULL, ";");
+        aux = strtok(NULL, ",");
       }
     }
-    // mostrarObj(pj->items);
-    printf("\n");
-    aux = strtok(equipo, ";");
+
+    aux = strtok(equipo, ",");
+    printf("Equipo:\n");
     while (aux) {
       if (aux[strlen(aux) - 2] == '\r') {
         aux[strlen(aux) - 2] = '\0';
       }
       int *objCant = valueRet(searchMap(pj->items, aux));
       if (!objCant) {
-        aux = strtok(NULL, ";");
+        aux = strtok(NULL, ",");
+        continue;
       }
       Objeto *obj = valueRet(searchMap(Objetos, aux));
       if (obj->atk > 0 && !searchMap(pj->equipo, "Espada")) {
@@ -1681,8 +1706,9 @@ HashMap *lecturaPjs(HashMap *Objetos) {
         insertMap(pj->equipo, "Armadura", obj);  
       }
       (*objCant)--;
-      aux = strtok(NULL, ";");
+      aux = strtok(NULL, ",");
     }
+
     Objeto *armor = valueRet(searchMap(pj->equipo, "Armadura"));
     if (armor) {
       if (armor->curacion == 0)
@@ -1692,12 +1718,18 @@ HashMap *lecturaPjs(HashMap *Objetos) {
     }
     else 
       pj->armorClass = 10 + pj->bonifDestreza;
-    
+
     insertMap(enemigos, pj->nombre, pj);
   }
+  
+  printf("Se han importado los enemigos\n");
+
   fclose(archivo);
+  printf("El archivo se ha cerrado correctamente\n");
+
   return enemigos;
 }
+
 
 // Lectura de objetos
 HashMap *lecturaObjetos() {
@@ -1722,6 +1754,7 @@ HashMap *lecturaObjetos() {
     aux = strtok(NULL, ",");
     obj->curacion = atoi(aux);
     insertMap(objetos, obj->nombre, obj);
+    printf("SOLOCONSOLA: objeto importado!\n\n");
   }
   fclose(archivo);
   return objetos;

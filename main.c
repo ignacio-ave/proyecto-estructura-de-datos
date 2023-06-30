@@ -711,13 +711,13 @@ int printOp(int objSec) {
       sprintf(buffer,"1. Atacar\n2. Accion no disponible\n3. Curarse\n4. Ver stats\n");
         PrintArchivo(buffer);
     } else if (objSec == 1) {
-      printf(buffer,"1. Atacar\n2. Ataque extra\n3. Curarse\n4. Ver stats\n");
+      sprintf(buffer,"1. Atacar\n2. Ataque extra\n3. Curarse\n4. Ver stats\n");
         PrintArchivo(buffer);
     } else if (objSec == 2) {
-      printf(buffer,"1. Atacar\n2. Protegerse\n3. Curarse\n4. Ver stats\n");
+      sprintf(buffer,"1. Atacar\n2. Protegerse\n3. Curarse\n4. Ver stats\n");
         PrintArchivo(buffer);
     } else if (objSec == 3) {
-      printf(buffer,"1. Atacar\n2. Recoger una espada\n3. Curarse\n4. Ver stats\n");
+      sprintf(buffer,"1. Atacar\n2. Recoger una espada\n3. Curarse\n4. Ver stats\n");
         PrintArchivo(buffer);
     }
 

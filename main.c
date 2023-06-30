@@ -1661,28 +1661,28 @@ HashMap *lecturaPjs(HashMap *Objetos) {
     pj->equipo = createMap(5);
     equipo = strtok(NULL, ",");
 
-    aux = strtok(items, ",");
+    aux = strtok(items, ";");
     printf("Items:\n");
     while (aux) {
       int *objCant = valueRet(searchMap(pj->items, aux));
       if (objCant) {
         (*objCant)++;
-        aux = strtok(NULL, ",");
+        aux = strtok(NULL, ";");
       }
       else {
         Objeto *obj = valueRet(searchMap(Objetos, aux));
         if (!obj) {
-          aux = strtok(NULL, ",");
+          aux = strtok(NULL, ";");
           continue;
         }
         int *base = (int*) malloc(sizeof(int));
         *base = 1;
         insertMap(pj->items, obj->nombre, base);
-        aux = strtok(NULL, ",");
+        aux = strtok(NULL, ";");
       }
     }
 
-    aux = strtok(equipo, ",");
+    aux = strtok(equipo, ";");
     printf("Equipo:\n");
     while (aux) {
       if (aux[strlen(aux) - 2] == '\r') {
@@ -1690,7 +1690,7 @@ HashMap *lecturaPjs(HashMap *Objetos) {
       }
       int *objCant = valueRet(searchMap(pj->items, aux));
       if (!objCant) {
-        aux = strtok(NULL, ",");
+        aux = strtok(NULL, ";");
         continue;
       }
       Objeto *obj = valueRet(searchMap(Objetos, aux));
@@ -1707,7 +1707,7 @@ HashMap *lecturaPjs(HashMap *Objetos) {
         insertMap(pj->equipo, "Armadura", obj);  
       }
       (*objCant)--;
-      aux = strtok(NULL, ",");
+      aux = strtok(NULL, ";");
     }
 
     Objeto *armor = valueRet(searchMap(pj->equipo, "Armadura"));

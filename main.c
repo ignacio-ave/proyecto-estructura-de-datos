@@ -1003,8 +1003,10 @@ int detCaida(Jugador *pj, int accExtra) {
   else if ((pj->desarmadoPrin == 1 && accExtra == 0) ||
            (pj->desarmadoPrin == 1 && pj->desarmadoSec == 1) ||
            (pj->desarmadoPrin == 1 && accExtra == 2)) {
-    sprintf(buffer,"No puedes atacar\n");
-    PrintArchivo(buffer);
+    if (pj->prota) {
+      sprintf(buffer,"No puedes atacar\n");
+      PrintArchivo(buffer);
+    }
     accExtra = 4;
   }
   return accExtra;

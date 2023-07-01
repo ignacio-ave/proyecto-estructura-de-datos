@@ -1348,6 +1348,10 @@ void subidaNivel(Jugador *pj) {
 // Da inicio al combate y luego otorga el loot en caso de ganar
 void estructuraCombate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
   char buffer[999];
+  pj->desarmadoPrin = 0;
+  pj->desarmadoSec = 0;
+  pj->desventaja = 0;
+  pj->ventaja = 0;
   sprintf(buffer,"Comienza el combate\n");
   PrintArchivo(buffer);
   combate(pj, enemigo, objetos);
@@ -1392,6 +1396,7 @@ void estructuraCombate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
   pj->desarmadoPrin = 0;
   pj->desarmadoSec = 0;
   pj->desventaja = 0;
+  pj->ventaja = 0;
   st_mapa();
 }
 

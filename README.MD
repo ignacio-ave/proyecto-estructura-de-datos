@@ -157,4 +157,21 @@ Tabla 3 : Complejidad temporal de las funciones de combate
 | estructuraCombate | O(n) |
 | generadorCaract | O(1) |
 
+---
+## Situación del Grupo
 
+En el transcurso del proyecto, hemos experimentado dificultades significativas en términos de la contribución de los miembros del equipo. En particular, el desempeño de Antonia ha sido motivo de preocupación y ha generado varios obstáculos para la finalización exitosa de nuestro trabajo. A continuación, se proporciona un desglose detallado de los eventos.
+
+Durante una llamada de Discord, diseñada para coordinar los esfuerzos de integración de código por parte de Felipe y Carlos, se dividieron las tareas y se asignaron responsabilidades. Aunque Antonia mostró disposición inicial para trabajar, su compromiso no se tradujo en una contribución efectiva.
+
+La comunicación fue uno de los principales problemas. Antonia asistió a la reunión de Discord más tarde de lo acordado y permaneció en silencio durante la mayor parte de la reunión, limitándose a responder mediante texto. A pesar de su llegada tardía, se le proporcionó un audio detallado con todas las tareas a realizar y se le asignó la tarea de modificar ciertas funciones printf por la función printarchivo.
+
+Desafortunadamente, hubo un malentendido con las instrucciones. Antonia modificó las funciones incorrectas, lo que resultó en un retroceso de trabajo y requirió que otro miembro deshiciera manualmente sus cambios. Esto puede verificarse a través de las estadísticas del repositorio donde se realizó el merge.
+
+A Antonia también se le asignó la tarea de revisar la compatibilidad del programa con Windows, siendo ella la única con este sistema operativo a esa hora. Sin embargo, esta tarea tampoco fue completada por Antonia y tuvo que ser realizada por otro miembro del equipo.
+
+Al día siguiente, a pesar de los esfuerzos continuos del resto del equipo, Antonia se mantuvo inactiva. Para agravar la situación, se le observó jugando League of Legends a las 2 de la mañana mientras los demás miembros estaban trabajando en el proyecto. Al ser confrontada sobre esta situación, Antonia optó por salir del grupo.
+
+En resumen, la participación de Antonia ha sido insuficiente y ha representado un desafío para el grupo. A pesar de su aparente disposición a colaborar, la realidad ha demostrado una falta de compromiso y una interpretación incorrecta de las tareas asignadas, resultando en retrasos y una carga de trabajo adicional para los demás miembros. Este hecho está claramente documentado en el repositorio del proyecto y en nuestras interacciones de comunicación.
+
+Esperamos que esta explicación proporcione una visión clara de los desafíos que hemos enfrentado como equipo.

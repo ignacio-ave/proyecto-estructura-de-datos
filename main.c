@@ -1000,9 +1000,9 @@ int detCaida(Jugador *pj, int accExtra) {
   }
   // Si esta desarmado de ambas manos o tiene solo una espada que se le cayo y
   // un escudo
-  else if (pj->desarmadoPrin == 1 && accExtra == 0 ||
-           pj->desarmadoPrin == 1 && pj->desarmadoSec == 1 ||
-           pj->desarmadoPrin == 1 && accExtra == 2) {
+  else if ((pj->desarmadoPrin == 1 && accExtra == 0) ||
+           (pj->desarmadoPrin == 1 && pj->desarmadoSec == 1) ||
+           (pj->desarmadoPrin == 1 && accExtra == 2)) {
     sprintf(buffer,"No puedes atacar\n");
     PrintArchivo(buffer);
     accExtra = 4;

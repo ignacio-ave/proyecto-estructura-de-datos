@@ -1,6 +1,10 @@
-# Nombre del Proyecto
+# Proyecto ESTRUCTURA DE DATOS ICD2344-1
 
-Descripción breve del proyecto.
+Este proyecto consiste en un juego de mazmorra desarrollado en el lenguaje de programación C, con una interfaz gráfica creada en Python mediante la biblioteca Pygame. Se implementan diversas estructuras de datos como HashMap para almacenar y acceder eficientemente a la información de juego, que incluye personajes, enemigos y objetos.
+
+El juego permite al usuario explorar un mapa bidimensional, interactuar con objetos, enfrentarse a enemigos y gestionar su inventario.
+
+Para garantizar la eficacia y escalabilidad del proyecto, se realizó una cuidadosa elección de Tipos de Datos Abstractos (TDA) y estructuras de datos, asegurando una experiencia de juego robusta.
 
 ## Requisitos
 

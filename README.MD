@@ -29,6 +29,13 @@ Para instalar Pygame, ejecuta el siguiente comando en tu terminal:
 ```python
 pip install pygame
 ```
+### Instalación de chardet
+
+Para instalar chardet, ejecuta el siguiente comando en tu terminal:
+
+```python
+pip install chardet
+```
 
 ### Compilación del Código C
 

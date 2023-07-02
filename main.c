@@ -198,6 +198,8 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
       case 'W':
       case 'w':
         if (*player_y > 0 && mapa->data[*player_y - 1][*player_x] != '#') {
+           if (*player_y > 0 && mapa->data[*player_y - 1][*player_x] != 'l') {
+          
                         if (mapa->data[*player_y - 1][*player_x] == 'd') {
       // Cambiar al siguiente mapa
       load_map_from_file("mapa2.csv", mapa);
@@ -215,8 +217,6 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
       break;
     }
     if (mapa->data[*player_y - 1][*player_x] == 'b') {
-      mapa->data[*player_y][*player_x] = '.'; // Restaurar el espacio vacío anterior
-          (*player_y)--;
       // hoguera
       st_hoguera();
      
@@ -226,11 +226,12 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
     }
           mapa->data[*player_y][*player_x] = '.'; // Restaurar el espacio vacío anterior
           (*player_y)--;
-        }
+        }}
         break;
       case 'A':
       case 'a':
         if (*player_x > 0 && mapa->data[*player_y][*player_x - 1] != '#') {
+            if (*player_x > 0 && mapa->data[*player_y][*player_x - 1] != 'l') {
                if (mapa->data[*player_y][*player_x - 1] == 'd') {
       // Cambiar al siguiente mapa
       load_map_from_file("mapa2.csv", mapa);
@@ -247,8 +248,7 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
       break;
     }
      if (mapa->data[*player_y ][*player_x - 1] == 'b') {
-       mapa->data[*player_y][*player_x] = '.'; // Restaurar el espacio vacío anterior
-          (*player_x)--;
+
       // hoguera
       st_hoguera();
      
@@ -257,11 +257,12 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
     }
           mapa->data[*player_y][*player_x] = '.'; // Restaurar el espacio vacío anterior
           (*player_x)--;
-        }
+        }}
         break;
       case 'S':
       case 's':
         if (*player_y < MAP_SIZE_Y - 1 && mapa->data[*player_y + 1][*player_x] != '#') {
+           if (*player_y < MAP_SIZE_Y - 1 && mapa->data[*player_y + 1][*player_x] != 'l') {
           if (mapa->data[*player_y+ 1][*player_x] == 'd') {
       // Cambiar al siguiente mapa
       load_map_from_file("mapa2.csv", mapa);
@@ -278,8 +279,7 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
       break;
     }
      if (mapa->data[*player_y + 1][*player_x] == 'b') {
-       mapa->data[*player_y][*player_x] = '.'; // Restaurar el espacio vacío anterior
-          (*player_y)++;
+
       // hoguera
       st_hoguera();
     
@@ -288,11 +288,12 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
     }
           mapa->data[*player_y][*player_x] = '.'; // Restaurar el espacio vacío anterior
           (*player_y)++;
-        }
+        }}
         break;
       case 'D':
       case 'd':
-        if (*player_x < MAP_SIZE_X - 1 && mapa->data[*player_y][*player_x + 1] != '#') {
+        if (*player_x < MAP_SIZE_X - 1 && mapa->data[*player_y][*player_x + 1] != '#' ) {
+           if (*player_x < MAP_SIZE_X - 1 && mapa->data[*player_y][*player_x + 1] != 'l' ) {
           if (mapa->data[*player_y][*player_x + 1] == 'd') {
       // Cambiar al siguiente mapa
       load_map_from_file("mapa2.csv", mapa);
@@ -308,9 +309,8 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
     
       break;
     }
-    if (mapa->data[*player_y ][*player_x + 1] == 'e') {
-       mapa->data[*player_y][*player_x] = '.'; // Restaurar el espacio vacío anterior
-          (*player_x)++;
+    if (mapa->data[*player_y ][*player_x + 1] == 'b') {
+
       // hoguera
       st_hoguera();
       
@@ -319,7 +319,7 @@ void process_actions(char *file_path, Mapa *mapa, int *player_x, int *player_y) 
     }
           mapa->data[*player_y][*player_x] = '.'; // Restaurar el espacio vacío anterior
           (*player_x)++;
-        }
+        }}
         break;
       default:
         break;
@@ -1421,6 +1421,7 @@ int generadorCaract() {
 
 // Crea un nuevo jugador
 Jugador *crearJugador(HashMap *objetos) {
+  int opc;
   printf("SOLOCONSOLA: Comienza creación personaje.\n\n");
   char buffer[999];
   Jugador *pj = (Jugador *)malloc(sizeof(Jugador));
@@ -1457,10 +1458,7 @@ Jugador *crearJugador(HashMap *objetos) {
   // Se asignan las caracteristicas
   sprintf(buffer,"¿Cual sera tu caracteristica principal?\n1. Fuerza: Bonificador al daño del arma\n2. Destreza: Bonificador a la armadura\n");
     PrintArchivo(buffer);
- 
-  int opc;
-  scanf("%d", &opc);
-  //getchar();
+  opc=obtenerSeleccion();
   if (opc == 1) {
     if (caract1 >= caract2) {
       pj->fuerza = caract1 + 2;
@@ -1486,11 +1484,12 @@ Jugador *crearJugador(HashMap *objetos) {
       pj->bonifDestreza = (pj->destreza - 10) / 2;
     }
   }
+  
   sprintf(buffer,"Bonificador de fuerza : %d\n", pj->bonifFuerza);
      PrintArchivo(buffer);
   sprintf(buffer,"Bonificador de destreza : %d\n", pj->bonifDestreza);
      PrintArchivo(buffer);
-
+  st_mapa();
   // if (strcmp(resp, "si") == 0)
   //   pj->prota = 1;
   // else {
@@ -1661,28 +1660,28 @@ HashMap *lecturaPjs(HashMap *Objetos) {
     pj->equipo = createMap(5);
     equipo = strtok(NULL, ",");
 
-    aux = strtok(items, ",");
+    aux = strtok(items, ";");
     printf("Items:\n");
     while (aux) {
       int *objCant = valueRet(searchMap(pj->items, aux));
       if (objCant) {
         (*objCant)++;
-        aux = strtok(NULL, ",");
+        aux = strtok(NULL, ";");
       }
       else {
         Objeto *obj = valueRet(searchMap(Objetos, aux));
         if (!obj) {
-          aux = strtok(NULL, ",");
+          aux = strtok(NULL, ";");
           continue;
         }
         int *base = (int*) malloc(sizeof(int));
         *base = 1;
         insertMap(pj->items, obj->nombre, base);
-        aux = strtok(NULL, ",");
+        aux = strtok(NULL, ";");
       }
     }
 
-    aux = strtok(equipo, ",");
+    aux = strtok(equipo, ";");
     printf("Equipo:\n");
     while (aux) {
       if (aux[strlen(aux) - 2] == '\r') {
@@ -1690,7 +1689,7 @@ HashMap *lecturaPjs(HashMap *Objetos) {
       }
       int *objCant = valueRet(searchMap(pj->items, aux));
       if (!objCant) {
-        aux = strtok(NULL, ",");
+        aux = strtok(NULL, ";");
         continue;
       }
       Objeto *obj = valueRet(searchMap(Objetos, aux));
@@ -1707,7 +1706,7 @@ HashMap *lecturaPjs(HashMap *Objetos) {
         insertMap(pj->equipo, "Armadura", obj);  
       }
       (*objCant)--;
-      aux = strtok(NULL, ",");
+      aux = strtok(NULL, ";");
     }
 
     Objeto *armor = valueRet(searchMap(pj->equipo, "Armadura"));
@@ -1809,7 +1808,7 @@ void limpiarArchivos() {
         printf("No se pudo abrir estado.txt");
         exit(EXIT_FAILURE);
     }
-    fprintf(estadoFile, "mapa"); // CAMBIAR AQUI PARA CAMBIAR EL ESTADO INICIAL   
+    fprintf(estadoFile, "nombre"); // CAMBIAR AQUI PARA CAMBIAR EL ESTADO INICIAL   
     fclose(estadoFile);
 }
 
@@ -1845,7 +1844,7 @@ int main(){
 
   // Inicializar estructuras
   srand(time(NULL));
-
+  HashMap *Objetos = createMap(10);
   HashMap *objetos = lecturaObjetos();
   HashMap *enemigos = lecturaPjs(objetos);   
 

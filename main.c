@@ -1000,11 +1000,13 @@ int detCaida(Jugador *pj, int accExtra) {
   }
   // Si esta desarmado de ambas manos o tiene solo una espada que se le cayo y
   // un escudo
-  else if (pj->desarmadoPrin == 1 && accExtra == 0 ||
-           pj->desarmadoPrin == 1 && pj->desarmadoSec == 1 ||
-           pj->desarmadoPrin == 1 && accExtra == 2) {
-    sprintf(buffer,"No puedes atacar\n");
-    PrintArchivo(buffer);
+  else if ((pj->desarmadoPrin == 1 && accExtra == 0) ||
+           (pj->desarmadoPrin == 1 && pj->desarmadoSec == 1) ||
+           (pj->desarmadoPrin == 1 && accExtra == 2)) {
+    if (pj->prota) {
+      sprintf(buffer,"No puedes atacar\n");
+      PrintArchivo(buffer);
+    }
     accExtra = 4;
   }
   return accExtra;
@@ -1348,6 +1350,10 @@ void subidaNivel(Jugador *pj) {
 // Da inicio al combate y luego otorga el loot en caso de ganar
 void estructuraCombate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
   char buffer[999];
+  pj->desarmadoPrin = 0;
+  pj->desarmadoSec = 0;
+  pj->desventaja = 0;
+  pj->ventaja = 0;
   sprintf(buffer,"Comienza el combate\n");
   PrintArchivo(buffer);
   combate(pj, enemigo, objetos);
@@ -1392,6 +1398,7 @@ void estructuraCombate(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
   pj->desarmadoPrin = 0;
   pj->desarmadoSec = 0;
   pj->desventaja = 0;
+  pj->ventaja = 0;
   st_mapa();
 }
 

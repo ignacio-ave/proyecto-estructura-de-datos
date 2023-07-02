@@ -160,7 +160,7 @@ Tabla 3 : Complejidad temporal de las funciones de combate
 ---
 ## Situación del Grupo
 
-En el transcurso del proyecto, hemos experimentado dificultades significativas en términos de la contribución de los miembros del equipo. En particular, el desempeño de Antonia ha sido motivo de preocupación y ha generado varios obstáculos para la finalización exitosa de nuestro trabajo. A continuación, se proporciona un desglose detallado de los eventos.
+En el transcurso del proyecto y del desarrollo del trabajo en grupo, hemos experimentado dificultades significativas en términos de la contribución de los miembros del equipo. En particular, el desempeño de Antonia ha sido motivo de preocupación y ha generado varios obstáculos para la finalización exitosa de nuestro trabajo. A continuación, se proporciona un desglose detallado de los eventos.
 
 Durante una llamada de Discord, diseñada para coordinar los esfuerzos de integración de código por parte de Felipe y Carlos, se dividieron las tareas y se asignaron responsabilidades. Aunque Antonia mostró disposición inicial para trabajar, su compromiso no se tradujo en una contribución efectiva.
 

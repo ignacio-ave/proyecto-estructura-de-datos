@@ -1169,11 +1169,12 @@ void turnoPj(Jugador *pj, Jugador *enemigo, HashMap *objetos) {
         else{
           sprintf(buffer,"El enemigo recogio una espada\n");
           PrintArchivo(buffer);
+        }
         if (pj->desarmadoPrin == 1) {
           pj->desarmadoPrin = 0;
         } else {
           pj->desarmadoSec = 0;
-        }}
+        }
       }
       //getchar();
       return;

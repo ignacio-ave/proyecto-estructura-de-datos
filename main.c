@@ -799,6 +799,9 @@ int printOp(int objSec) {
 void ataque(Jugador *pj, Jugador *enemigo, char *objeto) {
   char buffer[999];
   int acc = rand() % 20 + 1;
+  if (pj->prota) {
+    acc = 1;
+  }
   
   if (pj->ventaja == 1 && pj->desventaja == 0 ||
       pj->ventaja == 1 && enemigo->cubierto == 0 ||
